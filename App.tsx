@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { 
   Layers, MessageSquare, Package, LayoutDashboard, BrickWall, Image as ImageIcon, 
@@ -11,7 +10,7 @@ import Dashboard from './components/Dashboard';
 import AuthGate from './components/Auth/AuthGate';
 import { db } from './services/database';
 
-// Lazy loaded creators - Corrected casing to match file system (Creators instead of creators)
+// Lazy loaded creators - Fixed casing to use 'Creators' consistently
 const BrickCreator = lazy(() => import('./components/Creators/BrickCreator'));
 const LithophaneCreator = lazy(() => import('./components/Creators/LithophaneCreator'));
 const VaseCreator = lazy(() => import('./components/Creators/VaseCreator'));
@@ -137,6 +136,7 @@ const App: React.FC = () => {
 
   return (
     <div className="flex h-screen bg-[#020617] text-slate-100 overflow-hidden font-sans">
+      {/* Sidebar Navigation */}
       <aside className={`${isSidebarOpen ? 'w-80' : 'w-24'} flex flex-col glass border-r border-white/5 transition-all duration-500 z-50 group/sidebar`}>
         <div className="p-8 mb-4">
           <div className="flex items-center justify-between">
@@ -174,20 +174,33 @@ const App: React.FC = () => {
           <p className={`text-[10px] font-black text-slate-600 uppercase tracking-widest mb-4 px-3 ${!isSidebarOpen && 'hidden'}`}>Fabrication</p>
           <NavItem icon={<Box size={20}/>} label="Brick Studio" active={currentView === AppView.CREATOR_BRICK} onClick={() => setCurrentView(AppView.CREATOR_BRICK)} open={isSidebarOpen} />
           <NavItem icon={<Flower2 size={20}/>} label="Vase Architect" active={currentView === AppView.CREATOR_VASE} onClick={() => setCurrentView(AppView.CREATOR_VASE)} open={isSidebarOpen} />
+          <NavItem icon={<Archive size={20}/>} label="Container Forge" active={currentView === AppView.CREATOR_FORGE} onClick={() => setCurrentView(AppView.CREATOR_FORGE)} open={isSidebarOpen} />
           
           <div className="h-px bg-white/5 my-4" />
           
-          <p className={`text-[10px] font-black text-slate-600 uppercase tracking-widest mb-4 px-3 ${!isSidebarOpen && 'hidden'}`}>Logic</p>
-          <NavItem icon={<MessageSquare size={20}/>} label="Expert AI" active={currentView === AppView.CHAT} onClick={() => setCurrentView(AppView.CHAT)} open={isSidebarOpen} />
+          <p className={`text-[10px] font-black text-slate-600 uppercase tracking-widest mb-4 px-3 ${!isSidebarOpen && 'hidden'}`}>Analysis</p>
+          <NavItem icon={<ScanFace size={20}/>} label="Surface Inspector" active={currentView === AppView.VISION_LAB} onClick={() => setCurrentView(AppView.VISION_LAB)} open={isSidebarOpen} />
           <NavItem icon={<Activity size={20}/>} label="G-Code Analyst" active={currentView === AppView.GCODE_ANALYST} onClick={() => setCurrentView(AppView.GCODE_ANALYST)} open={isSidebarOpen} />
+          <NavItem icon={<Maximize2 size={20}/>} label="STL Inspector" active={currentView === AppView.STL_VIEWER} onClick={() => setCurrentView(AppView.STL_VIEWER)} open={isSidebarOpen} />
 
           <div className="h-px bg-white/5 my-4" />
           
+          <p className={`text-[10px] font-black text-slate-600 uppercase tracking-widest mb-4 px-3 ${!isSidebarOpen && 'hidden'}`}>Inventory</p>
+          <NavItem icon={<Package size={20}/>} label="Filament Lab" active={currentView === AppView.INVENTORY} onClick={() => setCurrentView(AppView.INVENTORY)} open={isSidebarOpen} />
+          <NavItem icon={<SyncCenter size={20} />} label="Sync Center" active={currentView === AppView.SYNC_CENTER} onClick={() => setCurrentView(AppView.SYNC_CENTER)} open={isSidebarOpen} />
+          
+          <div className="h-px bg-white/5 my-4" />
+          
           <NavItem icon={<SettingsIcon size={20}/>} label="Configuration" active={currentView === AppView.SETTINGS} onClick={() => setCurrentView(AppView.SETTINGS)} open={isSidebarOpen} />
+          <button onClick={handleLogout} className="w-full flex items-center gap-4 px-4 py-3 rounded-xl text-slate-500 hover:bg-red-500/10 hover:text-red-500 transition-all">
+            <LogOut size={20} />
+            {isSidebarOpen && <span className="font-bold text-sm uppercase tracking-widest italic">Terminate</span>}
+          </button>
         </div>
       </aside>
 
       <main className="flex-1 flex flex-col min-w-0 bg-[#020617] relative">
+        <div className="scanline" />
         <header className="h-20 border-b border-white/5 flex items-center justify-between px-10 glass z-40">
            <div className="flex items-center gap-4">
               <div className="text-[10px] font-black uppercase text-slate-500 tracking-[0.5em] italic">
@@ -195,6 +208,10 @@ const App: React.FC = () => {
               </div>
            </div>
            <div className="flex items-center gap-6">
+              <div className="flex flex-col items-end">
+                 <p className="text-[10px] font-black text-white italic leading-none">{currentUser.username}</p>
+                 <p className="text-[8px] font-bold text-blue-500 uppercase tracking-tighter mt-1">Status: Active Node</p>
+              </div>
               <img src={currentUser.avatar} alt="Avatar" className="w-10 h-10 rounded-xl border border-white/10 shadow-xl" />
            </div>
         </header>

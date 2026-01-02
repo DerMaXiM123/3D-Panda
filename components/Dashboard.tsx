@@ -1,9 +1,9 @@
-
 import React, { useEffect, useState } from 'react';
-import { AppView, Filament, User, Friend, Printer, PrintLogEntry } from '../types';
-import { Activity, Zap, Package, Server, Users, Box, Flower2, Cog, Fingerprint, Wrench, Mountain, HeartPulse, ShieldCheck, Timer, Cpu, ListChecks, Share2, Radio, Database, ChevronRight, Binary, Image as ImageIcon, Globe, ScanFace, Droplets, Ruler, Gauge, BookOpen, MessageSquare, Microscope, Scale, Type, FileCode, QrCode, Maximize2, ListTodo, Cloud } from 'lucide-react';
+import { AppView, Filament, User } from '../types';
+// Added missing FileCode import
+import { Activity, Zap, Package, Box, Flower2, Cog, Fingerprint, Wrench, Mountain, ShieldCheck, Cpu, Database, ChevronRight, Binary, Image as ImageIcon, ScanFace, Droplets, Ruler, Gauge, BookOpen, MessageSquare, Microscope, Archive, FileCode } from 'lucide-react';
 import { db } from '../services/database';
-// Corrected casing to match file system (Ads instead of ads)
+// Fixed casing for AdBanner import
 import AdBanner from './Ads/AdBanner';
 
 interface DashboardProps {
@@ -47,6 +47,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange, user }) => {
         </div>
       </header>
 
+      {/* Hero Module */}
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         <div 
           onClick={() => onViewChange(AppView.CREATOR_BRICK)}
@@ -70,6 +71,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange, user }) => {
           </div>
         </div>
 
+        {/* System Logic Sidebar */}
         <div className="lg:col-span-4 flex flex-col gap-8">
            <div className="glass rounded-[48px] p-10 border-white/5 bg-slate-900/40 flex-1 space-y-8 shadow-xl">
               <h3 className="text-[11px] font-black uppercase text-slate-500 tracking-[0.4em] italic flex items-center gap-4">
@@ -84,10 +86,12 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange, user }) => {
         </div>
       </section>
 
+      {/* Ads Integration */}
       <section>
          <AdBanner slot="1234567890" className="w-full" />
       </section>
 
+      {/* Engineering Matrix */}
       <section className="space-y-12">
         <div className="flex items-center gap-6 px-4">
            <h2 className="text-[11px] font-black text-slate-500 uppercase tracking-[0.6em] italic">Engineering Utility Matrix</h2>
@@ -95,9 +99,13 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange, user }) => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
            <MatrixCard icon={<Flower2 size={24}/>} label="Vase Lab" desc="Parametrischer Spiral-Modus" onClick={() => onViewChange(AppView.CREATOR_VASE)} />
-           <MatrixCard icon={<Binary size={24}/>} label="Screw Master" desc="Präzisions-Gewinde CAD" onClick={() => onViewChange(AppView.CREATOR_SCREW)} />
+           <MatrixCard icon={<Archive size={24}/>} label="Forge" desc="Gewinde Container CAD" onClick={() => onViewChange(AppView.CREATOR_FORGE)} />
            <MatrixCard icon={<Database size={24}/>} label="Sync Center" desc="Slicer Integration Hub" onClick={() => onViewChange(AppView.SYNC_CENTER)} />
            <MatrixCard icon={<Ruler size={24}/>} label="Spool Math" desc="Material-Volumen Analyse" onClick={() => onViewChange(AppView.SPOOL_MATH)} />
+           <MatrixCard icon={<Mountain size={24}/>} label="Terrain Lab" desc="3D Landschafts-Generator" onClick={() => onViewChange(AppView.CREATOR_TERRAIN)} />
+           <MatrixCard icon={<Microscope size={24}/>} label="STL Viewer" desc="Mesh Validierung" onClick={() => onViewChange(AppView.STL_VIEWER)} />
+           <MatrixCard icon={<Gauge size={24}/>} label="Flow Rate" desc="Extrusions-Kalibrierung" onClick={() => onViewChange(AppView.FLOW_CALC)} />
+           <MatrixCard icon={<Droplets size={24}/>} label="Resin Lab" desc="SLA Belichtungs-Profile" onClick={() => onViewChange(AppView.RESIN_LAB)} />
         </div>
       </section>
     </div>
@@ -130,11 +138,11 @@ const MatrixCard = ({ icon, label, desc, onClick }: any) => (
     onClick={onClick}
     className="glass p-8 rounded-[40px] border-white/5 bg-slate-900/40 hover:bg-white/5 hover:-translate-y-2 transition-all text-left group shadow-lg"
   >
-     <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center text-slate-500 group-hover:text-blue-500 group-hover:bg-blue-600/10 transition-all mb-8 shadow-inner">
+     <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center text-slate-500 group-hover:text-blue-500 group-hover:bg-blue-600 transition-colors mb-6">
         {icon}
      </div>
-     <h3 className="text-lg font-black italic text-white uppercase tracking-tighter leading-none mb-2">{label}</h3>
-     <p className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">{desc}</p>
+     <h4 className="text-xl font-black italic text-white uppercase tracking-tighter leading-none mb-2">{label}</h4>
+     <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{desc}</p>
   </button>
 );
 
