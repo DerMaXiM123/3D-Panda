@@ -1,25 +1,19 @@
 
-# 🐼 Panda Engineering Lab | Nexus Workstation
+# 🐼 Panda Engineering | Nexus Terminal v10.5
 
-![Platform](https://img.shields.io/badge/Platform-3D_Printing-blue)
-![Status](https://img.shields.io/badge/Status-Live-emerald)
+![Platform](https://img.shields.io/badge/Node-Production-blue)
+![Architecture](https://img.shields.io/badge/Core-Neural_Grid-emerald)
 
-Dies ist eine browserbasierte Workstation für 3D-Druck-Begeisterte. Keine Installation nötig.
+Das Nexus Terminal ist ein autarkes Betriebssystem für die additive Fertigung. Es kombiniert parametrische CAD-Generatoren mit neuronalen Analyse-Einheiten zur Qualitätssicherung.
 
-## 🚀 Schnelleinstieg
-1. Öffne die App über deinen Hosting-Anbieter (z.B. Vercel).
-2. Nutze den **"Quick Launch"**, um sofort Zugriff auf alle Tools zu erhalten.
+## ⚙️ Kern-Module
+- **Brick Studio**: Parametrische Erzeugung von Klemmbaustein-Geometrien.
+- **Surface Inspector**: Neuronale Fehlerdetektion mittels Bild-Mustererkennung.
+- **G-Code Analyst**: Datenextraktion und Bestands-Synchronisation direkt aus Slicer-Exports.
+- **Expert Logic**: Ein technisches Interface für komplexe Werkstoff- und Designfragen.
 
-### 🛠 Tools im Nexus:
-- **Brick Studio**: Parametrische Klemmbausteine generieren.
-- **Vision Lab AI**: Druckfehler-Analyse per Foto.
-- **G-Code Analyst**: Metadaten aus Slicer-Dateien extrahieren.
-- **Container Forge**: Boxen mit Gewinden erstellen.
-
-## 🆘 Troubleshooting Git-Upload
-Falls GitHub "Something went wrong" anzeigt:
-- Wir haben die automatischen "Workflows" entfernt, da diese oft Berechtigungsfehler verursachen.
-- Deine App funktioniert trotzdem einwandfrei! Du kannst sie einfach bei **Vercel** oder **Netlify** importieren, indem du dein Repository dort verknüpfst.
+## 🔒 Datenhoheit
+Das Terminal arbeitet nach dem **Local-First Prinzip**. Alle Berechnungen (ausgenommen neuronale Abfragen) finden lokal im Browser-Cache statt. 
 
 ---
-*Engineering is an Art. Keep Printing.*
+*Precision is not an accident. It is engineering.*

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { 
   Layers, MessageSquare, Package, LayoutDashboard, BrickWall, Image as ImageIcon, 
@@ -11,7 +12,7 @@ import AuthGate from './components/Auth/AuthGate';
 import { db } from './services/database';
 
 // Lazy loaded creators
-// Fix: Corrected casing to 'Creators' to match the already included file paths and resolve TS2406
+// Corrected casing from 'creators' to 'Creators' to fix build errors
 const BrickCreator = lazy(() => import('./components/Creators/BrickCreator'));
 const LithophaneCreator = lazy(() => import('./components/Creators/LithophaneCreator'));
 const VaseCreator = lazy(() => import('./components/Creators/VaseCreator'));
@@ -51,7 +52,7 @@ const LoadingView = () => (
   <div className="flex h-full w-full items-center justify-center min-h-[400px]">
     <div className="flex flex-col items-center gap-4">
       <Loader2 className="w-12 h-12 text-blue-500 animate-spin" />
-      <p className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-400 italic">Nexus Module Loading...</p>
+      <p className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-400 italic">Terminal Module Loading...</p>
     </div>
   </div>
 );
@@ -78,7 +79,7 @@ const App: React.FC = () => {
   }, []);
 
   const handleLogout = async () => {
-    if (confirm('Möchtest du dich wirklich abmelden?')) {
+    if (confirm('Verbindung zum Terminal trennen?')) {
       await db.logout();
       setCurrentUser(null);
       setCurrentView(AppView.DASHBOARD);
@@ -149,10 +150,10 @@ const App: React.FC = () => {
               </div>
               {isSidebarOpen && (
                 <div className="animate-in fade-in slide-in-from-left-4 duration-500">
-                  <p className="font-black text-xl tracking-tighter italic uppercase leading-none text-white">3D <span className="text-blue-500">PANDA</span></p>
+                  <p className="font-black text-xl tracking-tighter italic uppercase leading-none text-white">NEXUS <span className="text-blue-500">CORE</span></p>
                   <div className="flex items-center gap-2 mt-1.5">
                     <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-ping" />
-                    <p className="text-[8px] font-black text-emerald-500 tracking-[0.2em] uppercase">Core: Online</p>
+                    <p className="text-[8px] font-black text-emerald-500 tracking-[0.2em] uppercase">SYSTEM: ONLINE</p>
                   </div>
                 </div>
               )}
@@ -167,28 +168,28 @@ const App: React.FC = () => {
         </div>
 
         <div className="flex-1 overflow-y-auto px-5 space-y-2 scrollbar-hide pb-10">
-          <NavItem icon={<LayoutDashboard size={20}/>} label="Dashboard" active={currentView === AppView.DASHBOARD} onClick={() => setCurrentView(AppView.DASHBOARD)} open={isSidebarOpen} />
+          <NavItem icon={<LayoutDashboard size={20}/>} label="Terminal Home" active={currentView === AppView.DASHBOARD} onClick={() => setCurrentView(AppView.DASHBOARD)} open={isSidebarOpen} />
           
           <div className="h-px bg-white/5 my-4" />
           
-          <p className={`text-[10px] font-black text-slate-600 uppercase tracking-widest mb-4 px-3 ${!isSidebarOpen && 'hidden'}`}>Production</p>
+          <p className={`text-[10px] font-black text-slate-600 uppercase tracking-widest mb-4 px-3 ${!isSidebarOpen && 'hidden'}`}>Logistics</p>
           <NavItem icon={<Package size={20}/>} label="Inventory" active={currentView === AppView.INVENTORY} onClick={() => setCurrentView(AppView.INVENTORY)} open={isSidebarOpen} />
-          <NavItem icon={<ListTodo size={20}/>} label="Print Queue" active={currentView === AppView.PRINT_QUEUE} onClick={() => setCurrentView(AppView.PRINT_QUEUE)} open={isSidebarOpen} />
-          <NavItem icon={<Activity size={20}/>} label="Fleet Manager" active={currentView === AppView.FLEET_MANAGER} onClick={() => setCurrentView(AppView.FLEET_MANAGER)} open={isSidebarOpen} />
+          <NavItem icon={<ListTodo size={20}/>} label="Schedule" active={currentView === AppView.PRINT_QUEUE} onClick={() => setCurrentView(AppView.PRINT_QUEUE)} open={isSidebarOpen} />
+          <NavItem icon={<Activity size={20}/>} label="Fleet Command" active={currentView === AppView.FLEET_MANAGER} onClick={() => setCurrentView(AppView.FLEET_MANAGER)} open={isSidebarOpen} />
           
           <div className="h-px bg-white/5 my-4" />
           
-          <p className={`text-[10px] font-black text-slate-600 uppercase tracking-widest mb-4 px-3 ${!isSidebarOpen && 'hidden'}`}>Social</p>
-          <NavItem icon={<Globe size={20}/>} label="Community" active={currentView === AppView.COMMUNITY} onClick={() => setCurrentView(AppView.COMMUNITY)} open={isSidebarOpen} />
-          <NavItem icon={<Users size={20}/>} label="Friends" active={currentView === AppView.FRIENDS} onClick={() => setCurrentView(AppView.FRIENDS)} open={isSidebarOpen} />
-          <NavItem icon={<MessageSquare size={20}/>} label="Architect AI" active={currentView === AppView.CHAT} onClick={() => setCurrentView(AppView.CHAT)} open={isSidebarOpen} />
+          <p className={`text-[10px] font-black text-slate-600 uppercase tracking-widest mb-4 px-3 ${!isSidebarOpen && 'hidden'}`}>Neural Logic</p>
+          <NavItem icon={<MessageSquare size={20}/>} label="Expert Engine" active={currentView === AppView.CHAT} onClick={() => setCurrentView(AppView.CHAT)} open={isSidebarOpen} />
+          <NavItem icon={<Globe size={20}/>} label="Global Mesh" active={currentView === AppView.COMMUNITY} onClick={() => setCurrentView(AppView.COMMUNITY)} open={isSidebarOpen} />
+          <NavItem icon={<Users size={20}/>} label="Network" active={currentView === AppView.FRIENDS} onClick={() => setCurrentView(AppView.FRIENDS)} open={isSidebarOpen} />
 
           <div className="h-px bg-white/5 my-4" />
           
           <NavItem icon={<SettingsIcon size={20}/>} label="Settings" active={currentView === AppView.SETTINGS} onClick={() => setCurrentView(AppView.SETTINGS)} open={isSidebarOpen} />
           <button onClick={handleLogout} className="w-full flex items-center gap-4 px-4 py-3 rounded-xl text-slate-500 hover:bg-red-500/10 hover:text-red-500 transition-all">
             <LogOut size={20} />
-            {isSidebarOpen && <span className="font-bold text-sm uppercase tracking-widest italic">Logout</span>}
+            {isSidebarOpen && <span className="font-bold text-sm uppercase tracking-widest italic">Terminate</span>}
           </button>
         </div>
       </aside>
@@ -197,7 +198,7 @@ const App: React.FC = () => {
         <header className="h-20 border-b border-white/5 flex items-center justify-between px-10 glass z-40">
            <div className="flex items-center gap-4">
               <div className="text-[10px] font-black uppercase text-slate-500 tracking-[0.5em] italic">
-                {currentView === AppView.DASHBOARD ? 'Console Root' : `Panda // ${currentView.replace('CREATOR_', '')}`}
+                {currentView === AppView.DASHBOARD ? 'Operator Console' : `Module // ${currentView.replace('CREATOR_', '')}`}
               </div>
            </div>
            <div className="flex items-center gap-6">

@@ -1,6 +1,7 @@
+
 {
-  "name": "Panda Nexus - 3D Printing Hub",
-  "description": "Professionelle 3D-Druck Workstation mit KI-Analyse, Brick-Creator und Material-Management.",
+  "name": "Panda Nexus - Engineering Terminal",
+  "description": "Hochpräzise 3D-Druck Workstation mit neuronaler Oberflächenanalyse, parametrischem CAD-Modul und System-Logistik.",
   "requestFramePermissions": [
     "camera",
     "microphone"
