@@ -12,18 +12,18 @@ import AuthGate from './components/Auth/AuthGate';
 import { db } from './services/database';
 
 // Lazy loaded creators
-// Corrected casing from 'creators' to 'Creators' to fix build errors
-const BrickCreator = lazy(() => import('./components/Creators/BrickCreator'));
-const LithophaneCreator = lazy(() => import('./components/Creators/LithophaneCreator'));
-const VaseCreator = lazy(() => import('./components/Creators/VaseCreator'));
-const GearCreator = lazy(() => import('./components/Creators/GearCreator'));
-const SignCreator = lazy(() => import('./components/Creators/SignCreator'));
-const VoronoiLab = lazy(() => import('./components/Creators/VoronoiLab'));
-const ScrewArchitect = lazy(() => import('./components/Creators/ScrewArchitect'));
-const LithoSphere = lazy(() => import('./components/Creators/LithoSphere'));
-const TerrainLab = lazy(() => import('./components/Creators/TerrainLab'));
-const ContainerForge = lazy(() => import('./components/Creators/ContainerForge'));
-const CalibrationCube = lazy(() => import('./components/Creators/CalibrationCube'));
+// Corrected casing from 'Creators' to 'creators' to resolve file name casing conflict errors
+const BrickCreator = lazy(() => import('./components/creators/BrickCreator'));
+const LithophaneCreator = lazy(() => import('./components/creators/LithophaneCreator'));
+const VaseCreator = lazy(() => import('./components/creators/VaseCreator'));
+const GearCreator = lazy(() => import('./components/creators/GearCreator'));
+const SignCreator = lazy(() => import('./components/creators/SignCreator'));
+const VoronoiLab = lazy(() => import('./components/creators/VoronoiLab'));
+const ScrewArchitect = lazy(() => import('./components/creators/ScrewArchitect'));
+const LithoSphere = lazy(() => import('./components/creators/LithoSphere'));
+const TerrainLab = lazy(() => import('./components/creators/TerrainLab'));
+const ContainerForge = lazy(() => import('./components/creators/ContainerForge'));
+const CalibrationCube = lazy(() => import('./components/creators/CalibrationCube'));
 
 // Lazy loaded modules
 const FilamentInventory = lazy(() => import('./components/Inventory/FilamentInventory'));

@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { AppView, Filament, User, Friend, Printer, PrintLogEntry } from '../types';
 import { Activity, Zap, Package, Server, Users, Box, Flower2, Cog, Fingerprint, Wrench, Mountain, HeartPulse, ShieldCheck, Timer, Cpu, ListChecks, Share2, Radio, Database, ChevronRight, Binary, Image as ImageIcon, Globe, ScanFace, Droplets, Ruler, Gauge, BookOpen, MessageSquare, Microscope, Scale, Type, FileCode, QrCode, Maximize2, ListTodo, Cloud, Github, ExternalLink, Info, Archive } from 'lucide-react';
 import { db } from '../services/database';
-// Corrected casing from 'ads' to 'Ads' to fix build errors
-import AdBanner from './Ads/AdBanner';
+// Corrected casing from 'Ads' to 'ads' to resolve file name casing conflict error
+import AdBanner from './ads/AdBanner';
 
 interface DashboardProps {
   onViewChange: (view: AppView) => void;
@@ -67,7 +67,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange, user }) => {
         </div>
 
         <div className="lg:col-span-4 glass rounded-[56px] p-12 border-white/5 bg-slate-900/60 space-y-10 flex flex-col">
-           <h2 className="text-[11px] font-black uppercase text-slate-500 tracking-[0.4em] italic flex items-center gap-4">
+           <h2 className="text-[11px] font-black uppercase text-slate-500 tracking-0.4em italic flex items-center gap-4">
               <Package size={20} className="text-orange-500" /> Loaded Assets
            </h2>
            <div className="flex-1 space-y-4">
