@@ -1,0 +1,8 @@
+{
+  "name": "Panda Nexus - 3D Printing Hub",
+  "description": "Professionelle 3D-Druck Workstation mit KI-Analyse, Brick-Creator und Material-Management.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
