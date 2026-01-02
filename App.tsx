@@ -11,8 +11,7 @@ import Dashboard from './components/Dashboard';
 import AuthGate from './components/Auth/AuthGate';
 import { db } from './services/database';
 
-// Lazy loaded creators
-// Corrected casing from 'Creators' to 'creators' to resolve file name casing conflict errors
+// Lazy loaded creators - Fixed imports to use lowercase 'creators' directory to resolve casing ambiguity errors
 const BrickCreator = lazy(() => import('./components/creators/BrickCreator'));
 const LithophaneCreator = lazy(() => import('./components/creators/LithophaneCreator'));
 const VaseCreator = lazy(() => import('./components/creators/VaseCreator'));
@@ -138,6 +137,7 @@ const App: React.FC = () => {
 
   return (
     <div className="flex h-screen bg-[#020617] text-slate-100 overflow-hidden font-sans">
+      {/* Sidebar Navigation */}
       <aside className={`${isSidebarOpen ? 'w-80' : 'w-24'} flex flex-col glass border-r border-white/5 transition-all duration-500 z-50 group/sidebar`}>
         <div className="p-8 mb-4">
           <div className="flex items-center justify-between">
@@ -168,25 +168,30 @@ const App: React.FC = () => {
         </div>
 
         <div className="flex-1 overflow-y-auto px-5 space-y-2 scrollbar-hide pb-10">
-          <NavItem icon={<LayoutDashboard size={20}/>} label="Terminal Home" active={currentView === AppView.DASHBOARD} onClick={() => setCurrentView(AppView.DASHBOARD)} open={isSidebarOpen} />
+          <NavItem icon={<LayoutDashboard size={20}/>} label="Home Console" active={currentView === AppView.DASHBOARD} onClick={() => setCurrentView(AppView.DASHBOARD)} open={isSidebarOpen} />
+          
+          <div className="h-px bg-white/5 my-4" />
+          
+          <p className={`text-[10px] font-black text-slate-600 uppercase tracking-widest mb-4 px-3 ${!isSidebarOpen && 'hidden'}`}>Fabricators</p>
+          <NavItem icon={<Box size={20}/>} label="Brick Studio" active={currentView === AppView.CREATOR_BRICK} onClick={() => setCurrentView(AppView.CREATOR_BRICK)} open={isSidebarOpen} />
+          <NavItem icon={<Flower2 size={20}/>} label="Vase Lab" active={currentView === AppView.CREATOR_VASE} onClick={() => setCurrentView(AppView.CREATOR_VASE)} open={isSidebarOpen} />
+          <NavItem icon={<HardDrive size={20}/>} label="Gears & Parts" active={currentView === AppView.CREATOR_GEAR} onClick={() => setCurrentView(AppView.CREATOR_GEAR)} open={isSidebarOpen} />
           
           <div className="h-px bg-white/5 my-4" />
           
           <p className={`text-[10px] font-black text-slate-600 uppercase tracking-widest mb-4 px-3 ${!isSidebarOpen && 'hidden'}`}>Logistics</p>
           <NavItem icon={<Package size={20}/>} label="Inventory" active={currentView === AppView.INVENTORY} onClick={() => setCurrentView(AppView.INVENTORY)} open={isSidebarOpen} />
-          <NavItem icon={<ListTodo size={20}/>} label="Schedule" active={currentView === AppView.PRINT_QUEUE} onClick={() => setCurrentView(AppView.PRINT_QUEUE)} open={isSidebarOpen} />
-          <NavItem icon={<Activity size={20}/>} label="Fleet Command" active={currentView === AppView.FLEET_MANAGER} onClick={() => setCurrentView(AppView.FLEET_MANAGER)} open={isSidebarOpen} />
+          <NavItem icon={<Activity size={20}/>} label="Fleet Manager" active={currentView === AppView.FLEET_MANAGER} onClick={() => setCurrentView(AppView.FLEET_MANAGER)} open={isSidebarOpen} />
           
           <div className="h-px bg-white/5 my-4" />
           
-          <p className={`text-[10px] font-black text-slate-600 uppercase tracking-widest mb-4 px-3 ${!isSidebarOpen && 'hidden'}`}>Neural Logic</p>
-          <NavItem icon={<MessageSquare size={20}/>} label="Expert Engine" active={currentView === AppView.CHAT} onClick={() => setCurrentView(AppView.CHAT)} open={isSidebarOpen} />
-          <NavItem icon={<Globe size={20}/>} label="Global Mesh" active={currentView === AppView.COMMUNITY} onClick={() => setCurrentView(AppView.COMMUNITY)} open={isSidebarOpen} />
-          <NavItem icon={<Users size={20}/>} label="Network" active={currentView === AppView.FRIENDS} onClick={() => setCurrentView(AppView.FRIENDS)} open={isSidebarOpen} />
+          <p className={`text-[10px] font-black text-slate-600 uppercase tracking-widest mb-4 px-3 ${!isSidebarOpen && 'hidden'}`}>Logic Unit</p>
+          <NavItem icon={<MessageSquare size={20}/>} label="AI Architect" active={currentView === AppView.CHAT} onClick={() => setCurrentView(AppView.CHAT)} open={isSidebarOpen} />
+          <NavItem icon={<Globe size={20}/>} label="Maker Mesh" active={currentView === AppView.COMMUNITY} onClick={() => setCurrentView(AppView.COMMUNITY)} open={isSidebarOpen} />
 
           <div className="h-px bg-white/5 my-4" />
           
-          <NavItem icon={<SettingsIcon size={20}/>} label="Settings" active={currentView === AppView.SETTINGS} onClick={() => setCurrentView(AppView.SETTINGS)} open={isSidebarOpen} />
+          <NavItem icon={<SettingsIcon size={20}/>} label="Configuration" active={currentView === AppView.SETTINGS} onClick={() => setCurrentView(AppView.SETTINGS)} open={isSidebarOpen} />
           <button onClick={handleLogout} className="w-full flex items-center gap-4 px-4 py-3 rounded-xl text-slate-500 hover:bg-red-500/10 hover:text-red-500 transition-all">
             <LogOut size={20} />
             {isSidebarOpen && <span className="font-bold text-sm uppercase tracking-widest italic">Terminate</span>}
@@ -195,13 +200,18 @@ const App: React.FC = () => {
       </aside>
 
       <main className="flex-1 flex flex-col min-w-0 bg-[#020617] relative">
+        <div className="scanline" />
         <header className="h-20 border-b border-white/5 flex items-center justify-between px-10 glass z-40">
            <div className="flex items-center gap-4">
               <div className="text-[10px] font-black uppercase text-slate-500 tracking-[0.5em] italic">
-                {currentView === AppView.DASHBOARD ? 'Operator Console' : `Module // ${currentView.replace('CREATOR_', '')}`}
+                {currentView === AppView.DASHBOARD ? 'Station Operator' : `Module // ${currentView.replace('CREATOR_', '')}`}
               </div>
            </div>
            <div className="flex items-center gap-6">
+              <div className="flex flex-col items-end">
+                 <p className="text-[10px] font-black text-white italic leading-none">{currentUser.username}</p>
+                 <p className="text-[8px] font-bold text-blue-500 uppercase tracking-tighter mt-1">Status: Active Node</p>
+              </div>
               <img src={currentUser.avatar} alt="Avatar" className="w-10 h-10 rounded-xl border border-white/10 shadow-xl" />
            </div>
         </header>
