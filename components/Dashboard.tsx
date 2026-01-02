@@ -1,7 +1,10 @@
+
 import React, { useEffect, useState } from 'react';
 import { AppView, Filament, User, Friend, Printer, PrintLogEntry } from '../types';
 import { Activity, Zap, Package, Server, Users, Box, Flower2, Cog, Fingerprint, Wrench, Mountain, HeartPulse, ShieldCheck, Timer, Cpu, ListChecks, Share2, Radio, Database, ChevronRight, Binary, Image as ImageIcon, Globe, ScanFace, Droplets, Ruler, Gauge, BookOpen, MessageSquare, Microscope, Scale, Type, FileCode, QrCode, Maximize2, ListTodo, Cloud } from 'lucide-react';
 import { db } from '../services/database';
+// Corrected casing to match file system (Ads instead of ads)
+import AdBanner from './Ads/AdBanner';
 
 interface DashboardProps {
   onViewChange: (view: AppView) => void;
@@ -16,13 +19,12 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange, user }) => {
     db.getFilaments().then(data => {
       setFilaments(data);
       const total = data.reduce((acc, f) => acc + f.remaining, 0);
-      setStats({ totalWeight: total, totalValue: data.length * 25 }); // Mock value
+      setStats({ totalWeight: total, totalValue: data.length * 25 });
     });
   }, []);
 
   return (
     <div className="space-y-16 max-w-7xl mx-auto animate-in fade-in duration-1000 pb-32">
-      {/* Hero Station Header */}
       <header className="relative">
         <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-8 mb-12">
           <div className="space-y-4">
@@ -45,9 +47,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange, user }) => {
         </div>
       </header>
 
-      {/* Primary Modules Grid */}
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Main Action Tool */}
         <div 
           onClick={() => onViewChange(AppView.CREATOR_BRICK)}
           className="lg:col-span-8 glass rounded-[56px] p-12 border-white/5 bg-slate-900/60 hover:border-blue-500/30 transition-all cursor-pointer group relative overflow-hidden shadow-2xl"
@@ -66,16 +66,12 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange, user }) => {
                 <button className="bg-blue-600 text-white px-10 py-5 rounded-[28px] font-black uppercase italic tracking-widest text-sm shadow-[0_0_40px_rgba(37,99,235,0.4)] group-hover:bg-blue-500 transition-all">
                   Studio betreten
                 </button>
-                <div className="flex -space-x-4">
-                  {[1,2,3].map(i => <div key={i} className="w-12 h-12 rounded-2xl border-4 border-[#020617] bg-white/5" />)}
-                </div>
              </div>
           </div>
         </div>
 
-        {/* System Intelligence */}
         <div className="lg:col-span-4 flex flex-col gap-8">
-           <div className="glass rounded-[48px] p-10 border-white/5 bg-slate-900/60 flex-1 space-y-8 shadow-xl">
+           <div className="glass rounded-[48px] p-10 border-white/5 bg-slate-900/40 flex-1 space-y-8 shadow-xl">
               <h3 className="text-[11px] font-black uppercase text-slate-500 tracking-[0.4em] italic flex items-center gap-4">
                  <Cpu size={20} className="text-blue-500" /> System Logic
               </h3>
@@ -85,24 +81,13 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange, user }) => {
                  <DashboardLink icon={<FileCode size={18}/>} label="G-Code Analyst" view={AppView.GCODE_ANALYST} onClick={onViewChange} color="orange" />
               </div>
            </div>
-
-           <div className="glass rounded-[48px] p-10 border-white/5 bg-blue-600/5 shadow-xl space-y-6">
-              <div className="flex justify-between items-center">
-                 <span className="text-[10px] font-black text-blue-400 uppercase tracking-widest italic">Lagerbestand</span>
-                 <Package size={20} className="text-blue-500" />
-              </div>
-              <div className="flex items-end gap-3">
-                 <h4 className="text-4xl font-black italic text-white leading-none">{(stats.totalWeight / 1000).toFixed(1)}</h4>
-                 <span className="text-blue-500 font-black italic text-xl">kg</span>
-              </div>
-              <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden">
-                 <div className="h-full bg-blue-600 w-[65%]" />
-              </div>
-           </div>
         </div>
       </section>
 
-      {/* Tool Matrix */}
+      <section>
+         <AdBanner slot="1234567890" className="w-full" />
+      </section>
+
       <section className="space-y-12">
         <div className="flex items-center gap-6 px-4">
            <h2 className="text-[11px] font-black text-slate-500 uppercase tracking-[0.6em] italic">Engineering Utility Matrix</h2>
