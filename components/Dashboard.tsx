@@ -2,13 +2,13 @@
 import React, { useEffect, useState } from 'react';
 import { AppView, User } from '../types';
 import { 
-  Activity, Zap, Box, Flower2, Cog, ShieldCheck, 
-  Cpu, Database, ChevronRight, Binary, ScanFace, Droplets, 
-  Ruler, Gauge, MessageSquare, Microscope, FileCode, QrCode, Share2, Mountain, Target, ArrowUpRight
+  Box, Flower2, ShieldCheck, 
+  Database, Binary, ScanFace, 
+  Ruler, Gauge, MessageSquare, Microscope, FileCode, QrCode, Mountain, Target, ArrowUpRight
 } from 'lucide-react';
 import { db } from '../services/database';
-// Fix: Normalized path casing to 'Ads' to match canonical structure and resolve compilation warning
-import AdBanner from './Ads/AdBanner';
+// Fix: Changed import casing from './Ads/AdBanner' to './ads/AdBanner' to resolve the conflict with the already recognized file path in the program.
+import AdBanner from './ads/AdBanner';
 
 interface DashboardProps {
   onViewChange: (view: AppView) => void;
@@ -38,7 +38,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange, user }) => {
           <h1 className="text-6xl lg:text-9xl font-black tracking-tighter italic uppercase text-white leading-[0.85]">
             NEXUS <span className="text-blue-600">HUB</span>.
           </h1>
-          <p className="text-slate-500 font-bold uppercase text-[10px] lg:text-[11px] tracking-[0.8em] italic opacity-60 ml-2 whitespace-normal break-words max-w-2xl">
+          <p className="text-slate-500 font-bold uppercase text-[10px] lg:text-[11px] tracking-[0.8em] italic opacity-60 ml-2 whitespace-normal break-all max-w-2xl line-clamp-2">
              CORE ACCESS GRANTED // {user.username.toUpperCase()}
           </p>
         </div>
@@ -55,9 +55,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange, user }) => {
         </div>
       </header>
 
-      {/* Main Grid Matrix - Scaled to FULL Width */}
       <section className="flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-6 min-h-0 w-full">
-         {/* Hero Block - Expanded */}
          <div 
            onClick={() => onViewChange(AppView.CREATOR_BRICK)}
            className="lg:col-span-2 xl:col-span-3 xl:row-span-2 glass rounded-[48px] lg:rounded-[56px] p-8 lg:p-14 bg-blue-600 border-transparent hover:bg-blue-500 transition-all cursor-pointer group relative overflow-hidden flex flex-col justify-between shadow-2xl shadow-blue-900/40"
@@ -76,9 +74,8 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange, user }) => {
             </div>
          </div>
 
-         {/* Nodes - Responsive Scaling */}
          <NodeCard icon={<Database />} label="Material-Lager" desc="Filament Logistics" onClick={() => onViewChange(AppView.INVENTORY)} color="emerald" />
-         <NodeCard icon={<Flower2 />} label="Vase Lab" desc="Parametric Solid" onClick={() => onViewChange(AppView.CREATOR_VASE)} color="blue" />
+         <NodeCard icon={<Flower2 />} label="Vase Lab" desc="Solid Base Studio" onClick={() => onViewChange(AppView.CREATOR_VASE)} color="blue" />
          <NodeCard icon={<ScanFace />} label="Surface AI" desc="Neural Geometry" onClick={() => onViewChange(AppView.VISION_LAB)} color="purple" />
          
          <NodeCard icon={<FileCode />} label="G-Code Analyst" desc="Slicer Analytics" onClick={() => onViewChange(AppView.GCODE_ANALYST)} color="orange" />
@@ -116,7 +113,7 @@ const NodeCard = ({ icon, label, desc, onClick, color }: any) => {
             {React.cloneElement(icon, { size: 32 })}
          </div>
          <div className="mt-6">
-            <h4 className="text-xl lg:text-2xl font-black italic text-white uppercase tracking-tighter leading-tight mb-2 break-words line-clamp-2">{label}</h4>
+            <h4 className="text-xl lg:text-2xl font-black italic text-white uppercase tracking-tighter leading-tight mb-2 break-all line-clamp-2">{label}</h4>
             <p className="text-[8px] lg:text-[10px] font-bold text-slate-500 uppercase tracking-widest italic opacity-60 leading-tight">{desc}</p>
          </div>
       </button>

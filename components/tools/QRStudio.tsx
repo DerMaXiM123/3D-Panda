@@ -1,5 +1,6 @@
+
 import React, { useState, useEffect, useRef } from 'react';
-import { QrCode, Download, Activity, Database, Hash, Ruler, Info, ChevronRight, Maximize2, ShieldCheck, Cpu, Binary, Layers, History, Terminal as TerminalIcon, BarChart3, Radio } from 'lucide-react';
+import { QrCode, Download, Activity, Database, ChevronRight, ShieldCheck, Cpu, Binary, BarChart3, Radio } from 'lucide-react';
 import { db } from '../../services/database';
 import { Filament } from '../../types';
 import QRCode from 'qrcode';
@@ -193,16 +194,16 @@ const QRStudio: React.FC = () => {
       
       <header className="shrink-0 flex flex-col md:flex-row md:items-end justify-between gap-4 relative z-10 w-full">
         <div>
-          <h1 className="text-4xl lg:text-5xl font-black italic text-white uppercase tracking-tighter leading-none">
+          <h1 className="text-5xl lg:text-7xl font-black italic text-white uppercase tracking-tighter leading-none">
              TAG <span className="text-blue-500">FORGE</span>.
           </h1>
-          <p className="text-slate-500 font-bold uppercase text-[10px] tracking-[0.7em] mt-3 italic opacity-60 ml-1">Universal Asset Logistics Module</p>
+          <p className="text-slate-500 font-bold uppercase text-[10px] tracking-[0.7em] mt-3 italic opacity-60 ml-1">Universal Asset Logistics Module // Label Studio Pro</p>
         </div>
       </header>
 
       <div className="flex-1 flex flex-col gap-6 lg:gap-10 min-h-0 relative z-10 w-full">
-        <section className="flex-[4] grid lg:grid-cols-12 gap-6 lg:gap-10 min-h-0">
-          <div className="lg:col-span-4 glass rounded-[48px] lg:rounded-[64px] p-10 border-white/5 bg-[#0f172a]/40 flex flex-col shadow-xl overflow-hidden h-full">
+        <section className="flex-1 grid lg:grid-cols-12 gap-6 lg:gap-10 min-h-0">
+          <div className="lg:col-span-3 glass rounded-[48px] lg:rounded-[64px] p-10 border-white/5 bg-[#0f172a]/40 flex flex-col shadow-xl overflow-hidden h-full">
              <div className="shrink-0 mb-8 flex items-center justify-between">
                 <div className="flex items-center gap-4">
                    <div className="w-12 h-12 bg-blue-600/10 rounded-2xl flex items-center justify-center text-blue-500 border border-blue-500/20">
@@ -224,8 +225,7 @@ const QRStudio: React.FC = () => {
                         <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent" />
                      </div>
                      <div className="text-left min-w-0 flex-1">
-                        {/* Fixed name wrap in sidebar selection */}
-                        <p className="text-lg font-black italic uppercase whitespace-normal break-words leading-tight">{f.color}</p>
+                        <p className="text-lg font-black italic uppercase whitespace-normal break-all leading-tight line-clamp-2">{f.color}</p>
                         <p className={`text-[10px] font-bold uppercase mt-2 tracking-tighter ${selectedId === f.id ? 'text-blue-100' : 'text-slate-500'}`}>{f.material} // {f.brand}</p>
                      </div>
                      <ChevronRight size={24} className={`transition-transform duration-300 ${selectedId === f.id ? 'translate-x-1 opacity-100' : 'opacity-0 group-hover:opacity-100'}`} />
@@ -234,10 +234,10 @@ const QRStudio: React.FC = () => {
              </div>
           </div>
 
-          <div className="lg:col-span-8 glass rounded-[48px] lg:rounded-[64px] border-white/5 bg-[#020617]/60 flex flex-col items-center justify-center p-8 lg:p-20 shadow-2xl relative overflow-hidden h-full">
+          <div className="lg:col-span-9 glass rounded-[48px] lg:rounded-[64px] border-white/5 bg-[#020617]/60 flex flex-col items-center justify-center p-8 lg:p-20 shadow-2xl relative overflow-hidden h-full">
              {selectedId ? (
                <div className="w-full h-full flex flex-col items-center justify-center gap-12 animate-in zoom-in-95 duration-700 relative z-10">
-                  <div className="bg-white p-2 rounded-[40px] shadow-[0_60px_150px_rgba(0,0,0,1)] overflow-hidden w-full max-w-4xl transform hover:scale-[1.01] transition-transform duration-500">
+                  <div className="bg-white p-2 rounded-[40px] shadow-[0_60px_150px_rgba(0,0,0,1)] overflow-hidden w-full max-w-6xl transform hover:scale-[1.01] transition-transform duration-500">
                      <canvas ref={canvasRef} className="w-full h-auto rounded-[38px]" />
                   </div>
                   
@@ -249,7 +249,7 @@ const QRStudio: React.FC = () => {
                         link.href = canvasRef.current?.toDataURL('image/png') || '';
                         link.click();
                       }}
-                      className="bg-blue-600 hover:bg-blue-500 text-white py-8 px-20 rounded-[32px] font-black italic uppercase tracking-widest text-base flex items-center justify-center gap-6 transition-all shadow-2xl group"
+                      className="bg-blue-600 hover:bg-blue-500 text-white py-8 px-20 rounded-[32px] font-black italic uppercase tracking-widest text-lg flex items-center justify-center gap-6 transition-all shadow-2xl group"
                     >
                        <Download size={28} className="group-hover:translate-y-1 transition-transform" /> 
                        DOWNLOAD ASSET TAG
@@ -265,12 +265,12 @@ const QRStudio: React.FC = () => {
           </div>
         </section>
 
-        <section className="flex-1 grid grid-cols-1 md:grid-cols-4 gap-6 shrink-0 mb-2 h-full min-h-[160px] w-full">
+        <section className="h-32 grid grid-cols-1 md:grid-cols-4 gap-6 shrink-0 mb-2 w-full">
            <TelemetryCard icon={<Cpu size={32} />} label="Core Engine" value="Active" sub="V7.2 OPTIMIZED" />
            <TelemetryCard icon={<ShieldCheck size={32} />} label="Integrity" value="100%" sub="ECC_SECURE" />
            <TelemetryCard icon={<BarChart3 size={32} />} label="Node Load" value="Minimal" sub="STABLE_CORE" />
            
-           <div className="glass rounded-[40px] p-10 bg-slate-900/40 border-white/5 flex flex-col justify-center shadow-lg font-mono overflow-hidden relative group border-t border-white/10">
+           <div className="glass rounded-[40px] p-6 bg-slate-900/40 border-white/5 flex flex-col justify-center shadow-lg font-mono overflow-hidden relative group border-t border-white/10">
               <p className="text-[10px] font-black text-blue-500 uppercase tracking-widest italic mb-2 flex items-center gap-2 leading-none">
                  <Radio size={14} className="animate-pulse" /> Asset Uplink
               </p>
@@ -285,14 +285,14 @@ const QRStudio: React.FC = () => {
 };
 
 const TelemetryCard = ({ icon, label, value, sub }: any) => (
-  <div className="glass rounded-[40px] p-10 bg-slate-900/40 border-white/5 flex items-center gap-8 shadow-lg hover:bg-slate-900/60 transition-colors">
-    <div className="w-18 h-18 bg-blue-600/10 rounded-[28px] flex items-center justify-center text-blue-500 border border-blue-500/20 shadow-inner shrink-0 p-4">
+  <div className="glass rounded-[40px] p-6 bg-slate-900/40 border-white/5 flex items-center gap-8 shadow-lg hover:bg-slate-900/60 transition-colors">
+    <div className="w-14 h-14 bg-blue-600/10 rounded-[28px] flex items-center justify-center text-blue-500 border border-blue-500/20 shadow-inner shrink-0 p-3">
        {icon}
     </div>
     <div>
        <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest italic">{label}</p>
-       <p className="text-3xl font-black text-white italic uppercase mt-1">{value}</p>
-       <p className="text-[9px] font-mono text-blue-400 mt-1 uppercase opacity-60 tracking-tighter">{sub}</p>
+       <p className="text-2xl font-black text-white italic uppercase mt-1 leading-none">{value}</p>
+       <p className="text-[9px] font-mono text-blue-400 mt-2 uppercase opacity-60 tracking-tighter">{sub}</p>
     </div>
   </div>
 );

@@ -1,19 +1,20 @@
 
-import React, { useState, useEffect, useRef, Suspense, lazy } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { 
   LayoutDashboard, Box, Flower2, QrCode, ScanFace, Activity, 
   Settings as SettingsIcon, LogOut, Loader2, Menu, X,
   Database, Microscope, Binary, Cpu, Clock, ShieldCheck, User as UserIcon,
-  Ruler, Gauge, FileCode, Beaker, Briefcase, RefreshCw
+  Ruler, Gauge, FileCode, Briefcase, RefreshCw
 } from 'lucide-react';
 import { AppView, User } from './types';
 import Dashboard from './components/Dashboard';
 import AuthGate from './components/Auth/AuthGate';
 import { db } from './services/database';
 
-const APP_BUILD_ID = "NEXUS-v12.0.5-ULTRA-WIDE";
+const APP_BUILD_ID = "NEXUS-v12.0.6-FINAL-WIDE";
 
-// Lazy loaded components - Updated to Uppercase folder casing to match canonical filesystem state
+// Lazy loaded components - Normalized to match canonical file casing
+// Fix: Changed directory casing from 'creators' to 'Creators' for BrickCreator, VaseCreator, and CalibrationCube to align with the canonical paths already recognized by the compiler and resolve casing mismatch errors.
 const BrickCreator = lazy(() => import('./components/Creators/BrickCreator'));
 const VaseCreator = lazy(() => import('./components/Creators/VaseCreator'));
 const CalibrationCube = lazy(() => import('./components/Creators/CalibrationCube'));
@@ -24,14 +25,13 @@ const GCodeAnalyst = lazy(() => import('./components/Tools/GCodeAnalyst'));
 const STLInspector = lazy(() => import('./components/Tools/STLInspector'));
 const QRStudio = lazy(() => import('./components/Tools/QRStudio'));
 const ProjectManager = lazy(() => import('./components/Projects/ProjectManager'));
-const ResinLab = lazy(() => import('./components/Tools/ResinLab'));
 const Settings = lazy(() => import('./components/Settings'));
 
 const LoadingView = () => (
   <div className="flex h-full w-full items-center justify-center bg-[#020617]">
     <div className="flex flex-col items-center gap-4 text-blue-500">
       <Loader2 className="w-12 h-12 animate-spin" />
-      <p className="text-[10px] font-black uppercase tracking-[0.5em] italic animate-pulse">Re-Scaling Nexus Core...</p>
+      <p className="text-[10px] font-black uppercase tracking-[0.5em] italic animate-pulse">Syncing Nexus Core...</p>
     </div>
   </div>
 );
@@ -68,7 +68,6 @@ const App: React.FC = () => {
       case AppView.STL_VIEWER: return <STLInspector />;
       case AppView.QR_STUDIO: return <QRStudio />;
       case AppView.PROJECT_MANAGER: return <ProjectManager />;
-      case AppView.RESIN_LAB: return <ResinLab />;
       case AppView.SETTINGS: return <Settings user={currentUser} onUserUpdate={setCurrentUser} />;
       default: return <Dashboard onViewChange={setCurrentView} user={currentUser} />;
     }
@@ -112,7 +111,6 @@ const App: React.FC = () => {
           </div>
           <NavItem icon={<FileCode size={20}/>} label="Analyst" active={currentView === AppView.GCODE_ANALYST} onClick={() => setCurrentView(AppView.GCODE_ANALYST)} open={isSidebarOpen} />
           <NavItem icon={<Microscope size={20}/>} label="STL Viewer" active={currentView === AppView.STL_VIEWER} onClick={() => setCurrentView(AppView.STL_VIEWER)} open={isSidebarOpen} />
-          <NavItem icon={<Beaker size={20}/>} label="Resin Lab" active={currentView === AppView.RESIN_LAB} onClick={() => setCurrentView(AppView.RESIN_LAB)} open={isSidebarOpen} />
           <NavItem icon={<ScanFace size={20}/>} label="Surface AI" active={currentView === AppView.VISION_LAB} onClick={() => setCurrentView(AppView.VISION_LAB)} open={isSidebarOpen} />
           <NavItem icon={<QrCode size={20}/>} label="Label Studio" active={currentView === AppView.QR_STUDIO} onClick={() => setCurrentView(AppView.QR_STUDIO)} open={isSidebarOpen} />
         </div>
@@ -131,20 +129,20 @@ const App: React.FC = () => {
            <div className="text-[9px] font-black uppercase text-slate-500 tracking-[0.5em] italic truncate">SYSTEM_NODE // {currentView} // {APP_BUILD_ID}</div>
            <div className="flex items-center gap-6">
               <div className="flex items-center gap-6">
-                 <div className="flex flex-col items-end text-right">
-                    <p className="text-[10px] font-black italic uppercase text-white leading-tight max-w-[150px] break-words whitespace-normal line-clamp-2">
+                 <div className="flex flex-col items-end text-right min-w-0">
+                    <p className="text-[10px] font-black italic uppercase text-white leading-tight max-w-[200px] break-all whitespace-normal line-clamp-2">
                        {currentUser.username}
                     </p>
                     <p className="text-[8px] font-bold text-blue-500 uppercase tracking-widest mt-1 opacity-60">Operator Prime</p>
                  </div>
-                 <img src={currentUser.avatar} className="w-8 h-8 rounded-lg border border-white/10 shadow-lg" alt="Avatar" />
+                 <img src={currentUser.avatar} className="w-8 h-8 rounded-lg border border-white/10 shadow-lg shrink-0" alt="Avatar" />
               </div>
            </div>
         </header>
         
         <div className="flex-1 min-h-0 relative overflow-hidden">
            <Suspense fallback={<LoadingView />}>
-              <div className="h-full w-full overflow-y-auto scrollbar-hide">
+              <div className="h-full w-full">
                  {renderView()}
               </div>
            </Suspense>

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { Download, Sliders, Activity, ShieldCheck, Binary, RotateCw, MoveUp, Box, Layers, Gauge, Cpu, Radio } from 'lucide-react';
 import * as THREE from 'three';
@@ -70,8 +71,10 @@ const VaseCreator: React.FC = () => {
     const vertices: number[] = [];
     const indices: number[] = [];
 
+    // 1. Mittelpunkt am Boden hinzufügen (Index 0)
     vertices.push(0, 0, 0);
 
+    // 2. Körper-Vertices generieren
     for (let y = 0; y <= segmentsY; y++) {
       const v = y / segmentsY;
       const currentHeight = v * height;
@@ -87,6 +90,7 @@ const VaseCreator: React.FC = () => {
       }
     }
 
+    // 3. Wand-Indices generieren
     for (let y = 0; y < segmentsY; y++) {
       const start = 1 + (y * segmentsX);
       const next = 1 + ((y + 1) * segmentsX);
@@ -99,8 +103,14 @@ const VaseCreator: React.FC = () => {
       }
     }
 
+    // 4. FIX: Boden-Kappe triangulieren (Mittelpunkt 0 zu dem ersten Ring)
+    // Wir verbinden Vertex 0 mit dem Ring y=0 (Indices 1 bis segmentsX)
     for (let x = 0; x < segmentsX; x++) {
-      indices.push(0, 1 + ((x + 1) % segmentsX), 1 + x);
+      const xCurr = 1 + x;
+      const xNext = 1 + ((x + 1) % segmentsX);
+      // Triangle: Center, Current Ring Vertex, Next Ring Vertex
+      // Reihenfolge wichtig für Normale (Counter-Clockwise)
+      indices.push(0, xNext, xCurr);
     }
 
     const geometry = new THREE.BufferGeometry();
@@ -129,7 +139,7 @@ const VaseCreator: React.FC = () => {
           <h1 className="text-4xl font-black italic text-white uppercase tracking-tighter leading-none">
              VASE <span className="text-blue-500">LAB</span>.
           </h1>
-          <p className="text-slate-500 font-bold uppercase text-[10px] tracking-widest mt-2 italic opacity-60">Full-Scale Design Environment</p>
+          <p className="text-slate-500 font-bold uppercase text-[10px] tracking-widest mt-2 italic opacity-60">Full-Scale Design Environment // Solid Base Engine</p>
         </div>
         <button onClick={() => {
             if (!meshRef.current) return;
@@ -138,14 +148,14 @@ const VaseCreator: React.FC = () => {
             const blob = new Blob([(result as DataView).buffer], { type: 'application/octet-stream' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = `Vase_Nexus_Solid.stl`;
+            link.download = `SolidVase_Nexus.stl`;
             link.click();
         }} className="bg-blue-600 hover:bg-blue-500 text-white px-10 py-4 rounded-[20px] font-black uppercase italic shadow-xl transition-all flex items-center gap-4 text-xs tracking-widest">
           <Download size={20} /> EXPORT STL
         </button>
       </header>
 
-      <div className="flex-1 flex flex-col lg:flex-row gap-6 lg:gap-10 min-h-0 w-full">
+      <div className="flex-1 flex flex-col lg:flex-row gap-6 lg:gap-10 min-h-0 w-full overflow-hidden">
         <div className="flex-1 glass rounded-[48px] lg:rounded-[64px] relative overflow-hidden bg-black/60 border-white/5 shadow-2xl h-full">
              <div ref={mountRef} className="absolute inset-0 cursor-move" />
              <div className="absolute top-8 left-8 flex flex-col gap-3 pointer-events-none">
@@ -153,7 +163,7 @@ const VaseCreator: React.FC = () => {
                    <ShieldCheck size={14} /> Manifold Mesh Valid
                 </div>
                 <div className="bg-blue-600/10 backdrop-blur-xl px-5 py-2.5 rounded-2xl border border-blue-500/20 text-[10px] font-black uppercase text-blue-400 italic flex items-center gap-2 shadow-2xl">
-                   <Activity size={14} className="animate-pulse" /> Live Analysis
+                   <Activity size={14} className="animate-pulse" /> Solid Base Active
                 </div>
              </div>
              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-blue-600/5 blur-[120px] pointer-events-none rounded-full opacity-50" />
