@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { AppView, User } from '../types';
 import { 
@@ -7,8 +6,8 @@ import {
   Ruler, Gauge, MessageSquare, Microscope, FileCode, QrCode, Share2, Mountain, Target, ArrowUpRight
 } from 'lucide-react';
 import { db } from '../services/database';
-// Fix: Use uppercase 'Ads' for component imports to resolve casing mismatch errors
-import AdBanner from './Ads/AdBanner';
+// Fix: Updated path casing to match the program's expectation (lowercase 'ads')
+import AdBanner from './ads/AdBanner';
 
 interface DashboardProps {
   onViewChange: (view: AppView) => void;

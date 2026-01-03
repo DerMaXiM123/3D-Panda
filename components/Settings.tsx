@@ -1,6 +1,5 @@
-
 import React, { useState, useRef } from 'react';
-import { Camera, User as UserIcon, Mail, Shield, Save, Check, Loader2, Download, Upload, Database, Github, Server, RefreshCw, Info, Key, FileJson, ShieldAlert, Activity, Binary, Cpu } from 'lucide-react';
+import { Camera, User as UserIcon, Mail, Shield, Save, Check, Loader2, Download, Upload, Database, Github, Server, RefreshCw, Info, Key, FileJson, ShieldAlert, Activity, Binary, Cpu, Trash2 } from 'lucide-react';
 import { User, GitHubConfig } from '../types';
 import { db } from '../services/database';
 
@@ -16,7 +15,6 @@ const Settings: React.FC<SettingsProps> = ({ user, onUserUpdate }) => {
   const [isSaving, setIsSaving] = useState(false);
   const [isOptimizing, setIsOptimizing] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
-  const [isExporting, setIsExporting] = useState(false);
   
   const [ghConfig, setGhConfig] = useState<GitHubConfig>(user.githubConfig || {
     token: '', owner: '', repo: '', path: 'printverse_db.json', autoSync: false
@@ -47,6 +45,13 @@ const Settings: React.FC<SettingsProps> = ({ user, onUserUpdate }) => {
     setTimeout(() => setShowSuccess(false), 3000);
   };
 
+  const handlePurgeCache = () => {
+    if(confirm("SYSTEM RESET: Alle temporären Cache-Daten löschen und Seite neu laden? (Datenbank bleibt erhalten)")) {
+       localStorage.clear();
+       window.location.reload();
+    }
+  };
+
   return (
     <div className="h-full w-full flex flex-col p-8 gap-8 animate-in fade-in duration-500 overflow-hidden">
       <header className="shrink-0 flex flex-col md:flex-row md:items-end justify-between gap-6">
@@ -56,7 +61,7 @@ const Settings: React.FC<SettingsProps> = ({ user, onUserUpdate }) => {
         </div>
         <div className="bg-blue-600/10 border border-blue-500/20 px-6 py-3 rounded-2xl flex items-center gap-3">
            <Server size={20} className="text-blue-500" />
-           <span className="text-[10px] font-black uppercase text-blue-500 italic tracking-widest">Environment: Stable v10.5</span>
+           <span className="text-[10px] font-black uppercase text-blue-500 italic tracking-widest">Environment: Stable v12.0</span>
         </div>
       </header>
 
@@ -76,25 +81,13 @@ const Settings: React.FC<SettingsProps> = ({ user, onUserUpdate }) => {
             <p className="text-[10px] font-black text-blue-500 uppercase tracking-widest mt-2 italic">Operator Rank: Prime</p>
           </div>
 
-          <div className="glass rounded-[48px] p-10 border-emerald-500/20 bg-emerald-600/5 space-y-6 flex-1 shadow-2xl">
-             <div className="flex items-center gap-3 text-emerald-400">
-                <ShieldAlert size={24} />
-                <h4 className="text-xs font-black uppercase tracking-widest italic leading-none">Daten-Tresor</h4>
+          <div className="glass rounded-[48px] p-10 border-red-500/20 bg-red-600/5 space-y-6 flex-1 shadow-2xl">
+             <div className="flex items-center gap-3 text-red-400">
+                <Trash2 size={24} />
+                <h4 className="text-xs font-black uppercase tracking-widest italic leading-none">Maintenance</h4>
              </div>
-             <p className="text-[10px] text-slate-400 font-bold uppercase italic leading-relaxed">Sichere dein komplettes Lager und deine Projekte lokal als JSON-Backup.</p>
-             <div className="space-y-3 pt-4">
-                <button onClick={() => db.exportBackup().then(d => {
-                  const blob = new Blob([d], { type: 'application/json' });
-                  const link = document.createElement('a'); link.href = URL.createObjectURL(blob);
-                  link.download = `Nexus_Backup.json`; link.click();
-                })} className="w-full bg-white/5 hover:bg-white/10 text-white font-black py-4 rounded-2xl transition-all border border-white/10 text-[10px] uppercase italic tracking-widest">Export Backup</button>
-                <button onClick={() => backupInputRef.current?.click()} className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-4 rounded-2xl transition-all shadow-lg text-[10px] uppercase italic tracking-widest">Import Backup</button>
-                <input type="file" ref={backupInputRef} className="hidden" accept=".json" onChange={async (e) => {
-                   const file = e.target.files?.[0]; if(!file) return;
-                   const reader = new FileReader(); reader.onload = async (ev) => { await db.importBackup(ev.target?.result as string); window.location.reload(); };
-                   reader.readAsText(file);
-                }} />
-             </div>
+             <p className="text-[10px] text-slate-400 font-bold uppercase italic leading-relaxed">Bei Fehlern nach einem Git-Update: Cache erzwingen neuzuladen.</p>
+             <button onClick={handlePurgeCache} className="w-full bg-red-600/20 hover:bg-red-600 text-white font-black py-4 rounded-2xl transition-all border border-red-500/40 text-[10px] uppercase italic tracking-widest">Force Cache Purge</button>
           </div>
         </div>
 

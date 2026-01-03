@@ -1,21 +1,23 @@
-
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { 
   LayoutDashboard, Box, Flower2, QrCode, ScanFace, Activity, 
   Settings as SettingsIcon, LogOut, Loader2, Menu, X,
   Database, Microscope, Binary, Cpu, Clock, ShieldCheck, User as UserIcon,
-  Ruler, Gauge, FileCode, Beaker, Briefcase
+  Ruler, Gauge, FileCode, Beaker, Briefcase, RefreshCw
 } from 'lucide-react';
 import { AppView, User } from './types';
 import Dashboard from './components/Dashboard';
 import AuthGate from './components/Auth/AuthGate';
 import { db } from './services/database';
 
-// Lazy loaded components with standard casing
-// Fix: Use uppercase 'Creators' for component imports to resolve casing mismatch errors with already included files
-const BrickCreator = lazy(() => import('./components/Creators/BrickCreator'));
-const VaseCreator = lazy(() => import('./components/Creators/VaseCreator'));
-const CalibrationCube = lazy(() => import('./components/Creators/CalibrationCube'));
+// Build ID for Cache Verification
+const APP_BUILD_ID = "NEXUS-v12.0.4-STABLE";
+
+// Lazy loaded components with strict path casing
+// Fix: Updated path casing to match the program's expectation (lowercase 'creators')
+const BrickCreator = lazy(() => import('./components/creators/BrickCreator'));
+const VaseCreator = lazy(() => import('./components/creators/VaseCreator'));
+const CalibrationCube = lazy(() => import('./components/creators/CalibrationCube'));
 const FilamentInventory = lazy(() => import('./components/Inventory/FilamentInventory'));
 const AIChat = lazy(() => import('./components/AIChat'));
 const VisionLab = lazy(() => import('./components/Tools/VisionLab'));
@@ -127,15 +129,13 @@ const App: React.FC = () => {
 
       <main className="flex-1 min-w-0 flex flex-col bg-[#020617] h-screen relative overflow-hidden">
         <header className="h-16 border-b border-white/5 flex items-center justify-between px-8 glass shrink-0">
-           <div className="text-[9px] font-black uppercase text-slate-500 tracking-[0.5em] italic truncate">SYSTEM_NODE // {currentView}</div>
+           <div className="text-[9px] font-black uppercase text-slate-500 tracking-[0.5em] italic truncate">SYSTEM_NODE // {currentView} // {APP_BUILD_ID}</div>
            <div className="flex items-center gap-6">
-              <div className="flex items-center gap-6">
-                 <div className="flex flex-col items-end">
-                    <p className="text-[10px] font-black italic uppercase text-white leading-none">{currentUser.username}</p>
-                    <p className="text-[8px] font-bold text-blue-500 uppercase tracking-widest mt-1 opacity-60">Operator Prime</p>
-                 </div>
-                 <img src={currentUser.avatar} className="w-8 h-8 rounded-lg border border-white/10 shadow-lg" alt="Avatar" />
+              <div className="flex flex-col items-end">
+                 <p className="text-[10px] font-black italic uppercase text-white leading-none">{currentUser.username}</p>
+                 <p className="text-[8px] font-bold text-blue-500 uppercase tracking-widest mt-1 opacity-60">Operator Prime</p>
               </div>
+              <img src={currentUser.avatar} className="w-8 h-8 rounded-lg border border-white/10 shadow-lg" alt="Avatar" />
            </div>
         </header>
         
