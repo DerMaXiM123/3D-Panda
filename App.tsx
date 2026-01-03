@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import { AppView, User } from './types';
 import Dashboard from './components/Dashboard';
-import AuthGate from './components/Auth/AuthGate';
+import AuthGate from './components/auth/AuthGate';
 import { db } from './services/database';
 
 const APP_BUILD_ID = "NEXUS-v12.1.4-STABLE";
@@ -16,13 +16,13 @@ const APP_BUILD_ID = "NEXUS-v12.1.4-STABLE";
 const BrickCreator = lazy(() => import('./components/creators/BrickCreator'));
 const VaseCreator = lazy(() => import('./components/creators/VaseCreator'));
 const CalibrationCube = lazy(() => import('./components/creators/CalibrationCube'));
-const FilamentInventory = lazy(() => import('./components/Inventory/FilamentInventory'));
+const FilamentInventory = lazy(() => import('./components/inventory/FilamentInventory'));
 const AIChat = lazy(() => import('./components/AIChat'));
-const VisionLab = lazy(() => import('./components/Tools/VisionLab'));
-const GCodeAnalyst = lazy(() => import('./components/Tools/GCodeAnalyst'));
-const STLInspector = lazy(() => import('./components/Tools/STLInspector'));
-const QRStudio = lazy(() => import('./components/Tools/QRStudio'));
-const ProjectManager = lazy(() => import('./components/Projects/ProjectManager'));
+const VisionLab = lazy(() => import('./components/tools/VisionLab'));
+const GCodeAnalyst = lazy(() => import('./components/tools/GCodeAnalyst'));
+const STLInspector = lazy(() => import('./components/tools/STLInspector'));
+const QRStudio = lazy(() => import('./components/tools/QRStudio'));
+const ProjectManager = lazy(() => import('./components/projects/ProjectManager'));
 const Settings = lazy(() => import('./components/Settings'));
 
 const LoadingView = () => (
