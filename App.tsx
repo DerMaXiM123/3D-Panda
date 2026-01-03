@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { 
   LayoutDashboard, Box, Flower2, QrCode, ScanFace, Activity, 
@@ -11,18 +10,19 @@ import Dashboard from './components/Dashboard';
 import AuthGate from './components/Auth/AuthGate';
 import { db } from './services/database';
 
-const APP_BUILD_ID = "NEXUS-v12.0.7-FIXED";
+const APP_BUILD_ID = "NEXUS-v12.0.8-STABLE";
 
-// Fix: Adjusted directory casing to 'Creators' to resolve inconsistent casing errors in imports
-const BrickCreator = lazy(() => import('./components/Creators/BrickCreator'));
-const VaseCreator = lazy(() => import('./components/Creators/VaseCreator'));
-const CalibrationCube = lazy(() => import('./components/Creators/CalibrationCube'));
+// Lazy loaded components - Pfade müssen exakt dem Dateisystem entsprechen
+// Fix: Adjusted folder casing to lowercase 'creators' to resolve TS import conflicts and redundant file inclusion
+const BrickCreator = lazy(() => import('./components/creators/BrickCreator'));
+const VaseCreator = lazy(() => import('./components/creators/VaseCreator'));
+const CalibrationCube = lazy(() => import('./components/creators/CalibrationCube'));
 const FilamentInventory = lazy(() => import('./components/Inventory/FilamentInventory'));
 const AIChat = lazy(() => import('./components/AIChat'));
-const VisionLab = lazy(() => import('./components/tools/VisionLab'));
-const GCodeAnalyst = lazy(() => import('./components/tools/GCodeAnalyst'));
-const STLInspector = lazy(() => import('./components/tools/STLInspector'));
-const QRStudio = lazy(() => import('./components/tools/QRStudio'));
+const VisionLab = lazy(() => import('./components/Tools/VisionLab'));
+const GCodeAnalyst = lazy(() => import('./components/Tools/GCodeAnalyst'));
+const STLInspector = lazy(() => import('./components/Tools/STLInspector'));
+const QRStudio = lazy(() => import('./components/Tools/QRStudio'));
 const ProjectManager = lazy(() => import('./components/Projects/ProjectManager'));
 const Settings = lazy(() => import('./components/Settings'));
 
@@ -30,7 +30,7 @@ const LoadingView = () => (
   <div className="flex h-full w-full items-center justify-center bg-[#020617]">
     <div className="flex flex-col items-center gap-4 text-blue-500">
       <Loader2 className="w-12 h-12 animate-spin" />
-      <p className="text-[10px] font-black uppercase tracking-[0.5em] italic animate-pulse">Syncing Nexus Core...</p>
+      <p className="text-[10px] font-black uppercase tracking-[0.5em] italic animate-pulse">Initializing Terminal...</p>
     </div>
   </div>
 );
@@ -93,7 +93,7 @@ const App: React.FC = () => {
           <NavItem icon={<LayoutDashboard size={20}/>} label="Command" active={currentView === AppView.DASHBOARD} onClick={() => setCurrentView(AppView.DASHBOARD)} open={isSidebarOpen} />
           
           <div className={`mt-6 mb-2 px-4 ${!isSidebarOpen && 'hidden'}`}>
-             <p className="text-[8px] font-black text-slate-600 uppercase tracking-widest italic">Core Logistics</p>
+             <p className="text-[8px] font-black text-slate-600 uppercase tracking-widest italic">Logistics</p>
           </div>
           <NavItem icon={<Database size={20}/>} label="Lager" active={currentView === AppView.INVENTORY} onClick={() => setCurrentView(AppView.INVENTORY)} open={isSidebarOpen} />
           <NavItem icon={<Briefcase size={20}/>} label="Projekte" active={currentView === AppView.PROJECT_MANAGER} onClick={() => setCurrentView(AppView.PROJECT_MANAGER)} open={isSidebarOpen} />
@@ -106,16 +106,16 @@ const App: React.FC = () => {
           <NavItem icon={<Binary size={20}/>} label="Cali-Cube" active={currentView === AppView.CREATOR_CUBE} onClick={() => setCurrentView(AppView.CREATOR_CUBE)} open={isSidebarOpen} />
           
           <div className={`mt-6 mb-2 px-4 ${!isSidebarOpen && 'hidden'}`}>
-             <p className="text-[8px] font-black text-slate-600 uppercase tracking-widest italic">Engineering Tools</p>
+             <p className="text-[8px] font-black text-slate-600 uppercase tracking-widest italic">Analysis</p>
           </div>
-          <NavItem icon={<FileCode size={20}/>} label="Analyst" active={currentView === AppView.GCODE_ANALYST} onClick={() => setCurrentView(AppView.GCODE_ANALYST)} open={isSidebarOpen} />
+          <NavItem icon={<FileCode size={20}/>} label="G-Code" active={currentView === AppView.GCODE_ANALYST} onClick={() => setCurrentView(AppView.GCODE_ANALYST)} open={isSidebarOpen} />
           <NavItem icon={<Microscope size={20}/>} label="STL Viewer" active={currentView === AppView.STL_VIEWER} onClick={() => setCurrentView(AppView.STL_VIEWER)} open={isSidebarOpen} />
           <NavItem icon={<ScanFace size={20}/>} label="Surface AI" active={currentView === AppView.VISION_LAB} onClick={() => setCurrentView(AppView.VISION_LAB)} open={isSidebarOpen} />
-          <NavItem icon={<QrCode size={20}/>} label="Label Studio" active={currentView === AppView.QR_STUDIO} onClick={() => setCurrentView(AppView.QR_STUDIO)} open={isSidebarOpen} />
+          <NavItem icon={<QrCode size={20}/>} label="Tags" active={currentView === AppView.QR_STUDIO} onClick={() => setCurrentView(AppView.QR_STUDIO)} open={isSidebarOpen} />
         </div>
         
         <div className="p-4 mt-auto border-t border-white/5 space-y-1 shrink-0">
-           <NavItem icon={<SettingsIcon size={20}/>} label="System Config" active={currentView === AppView.SETTINGS} onClick={() => setCurrentView(AppView.SETTINGS)} open={isSidebarOpen} />
+           <NavItem icon={<SettingsIcon size={20}/>} label="Config" active={currentView === AppView.SETTINGS} onClick={() => setCurrentView(AppView.SETTINGS)} open={isSidebarOpen} />
            <button onClick={() => db.logout().then(() => window.location.reload())} className="w-full flex items-center gap-4 px-4 py-3 rounded-xl text-slate-500 hover:bg-red-500/10 hover:text-red-500 transition-all">
               <LogOut size={20} />
               {isSidebarOpen && <span className="font-black text-[10px] uppercase tracking-widest italic">Terminate</span>}
@@ -125,21 +125,21 @@ const App: React.FC = () => {
 
       <main className="flex-1 min-w-0 flex flex-col bg-[#020617] h-screen relative overflow-hidden">
         <header className="h-16 border-b border-white/5 flex items-center justify-between px-8 glass shrink-0">
-           <div className="text-[9px] font-black uppercase text-slate-500 tracking-[0.5em] italic truncate">SYSTEM_NODE // {currentView} // {APP_BUILD_ID}</div>
-           <div className="flex items-center gap-6">
-              <div className="flex items-center gap-6">
-                 <div className="flex flex-col items-end text-right min-w-0">
-                    <p className="text-[10px] font-black italic uppercase text-white leading-tight max-w-[180px] break-all whitespace-normal line-clamp-2">
-                       {currentUser.username}
-                    </p>
-                    <p className="text-[8px] font-bold text-blue-500 uppercase tracking-widest mt-1 opacity-60">Operator Prime</p>
-                 </div>
-                 <img src={currentUser.avatar} className="w-8 h-8 rounded-lg border border-white/10 shadow-lg shrink-0" alt="Avatar" />
+           <div className="text-[9px] font-black uppercase text-slate-500 tracking-[0.5em] italic truncate min-w-0">
+              SYS_NODE // {currentView} // {APP_BUILD_ID}
+           </div>
+           <div className="flex items-center gap-4 shrink-0">
+              <div className="flex flex-col items-end text-right min-w-0">
+                 <p className="text-[10px] font-black italic uppercase text-white leading-tight max-w-[150px] break-all whitespace-normal line-clamp-2">
+                    {currentUser.username}
+                 </p>
+                 <p className="text-[8px] font-bold text-blue-500 uppercase tracking-widest opacity-60">Operator Prime</p>
               </div>
+              <img src={currentUser.avatar} className="w-8 h-8 rounded-lg border border-white/10 shadow-lg shrink-0" alt="Avatar" />
            </div>
         </header>
         
-        <div className="flex-1 min-h-0 relative overflow-hidden">
+        <div className="flex-1 min-h-0 relative">
            <Suspense fallback={<LoadingView />}>
               <div className="h-full w-full">
                  {renderView()}
@@ -151,11 +151,11 @@ const App: React.FC = () => {
            <div className="flex items-center gap-6">
               <div className="flex items-center gap-2 text-blue-500/50">
                  <Cpu size={10} />
-                 <span className="text-[7px] font-black uppercase tracking-widest italic">Core: Active</span>
+                 <span className="text-[7px] font-black uppercase tracking-widest italic">Core Active</span>
               </div>
               <div className="flex items-center gap-2 text-emerald-500/50">
                  <ShieldCheck size={10} />
-                 <span className="text-[7px] font-black uppercase tracking-widest italic">Kernel V12.0</span>
+                 <span className="text-[7px] font-black uppercase tracking-widest italic">AES-256</span>
               </div>
            </div>
            <div className="flex items-center gap-4 text-blue-400">
