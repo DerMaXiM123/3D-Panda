@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-// Fix: Added missing 'Weight' icon to the lucide-react imports
+/* Fix: Added missing 'Weight' icon to the lucide-react imports */
 import { LayoutGrid, ListTodo, Plus, Trash2, CheckCircle2, Clock, AlertTriangle, Play, ChevronRight, Package, Calendar, BarChart2, Info, Weight } from 'lucide-react';
 import { Project, ProjectPart, Filament, PrintStatus } from '../../types';
 import { db } from '../../services/database';

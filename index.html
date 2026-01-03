@@ -1,20 +1,12 @@
 
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" class="h-full overflow-hidden">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panda Nexus | Engineering Terminal</title>
     
-    <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2334201209469606" crossorigin="anonymous"></script>
-
-    <!-- Professional Preview Tags -->
-    <meta name="description" content="Industrieller Standard für Maker-Workstations. Lokale Datenverarbeitung, parametrische Konstruktion und Prozess-Logistik.">
-    <meta property="og:title" content="Panda Engineering | Nexus Terminal">
-    <meta property="og:description" content="Das Betriebssystem für deine 3D-Druck Werkstatt.">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=1200&auto=format&fit=crop">
-    <meta name="twitter:card" content="summary_large_image">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -22,8 +14,6 @@
         :root {
             --accent: #3b82f6;
             --bg-dark: #020617;
-            --neon-blue: #3b82f6;
-            --neon-purple: #a855f7;
         }
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -34,47 +24,42 @@
             color: #f8fafc;
             overflow: hidden;
             height: 100vh;
+            width: 100vw;
         }
+        #root { height: 100%; width: 100%; }
         .font-mono { font-family: 'JetBrains Mono', monospace; }
         .glass {
             background: rgba(15, 23, 42, 0.6);
             backdrop-filter: blur(20px) saturate(180%);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
         }
         .scanline {
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(to right, transparent, var(--neon-blue), transparent);
+            width: 100%; height: 2px;
+            background: linear-gradient(to right, transparent, #3b82f6, transparent);
             position: absolute;
-            animation: scanline 4s linear infinite;
-            opacity: 0.2;
+            animation: scanline 6s linear infinite;
+            opacity: 0.1;
             pointer-events: none;
+            z-index: 50;
         }
         @keyframes scanline {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(100%); }
+            0% { transform: translateY(0vh); }
+            100% { transform: translateY(100vh); }
         }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
         input[type=range].modern-slider {
-            -webkit-appearance: none;
-            width: 100%;
-            background: transparent;
+            -webkit-appearance: none; width: 100%; background: transparent;
         }
         input[type=range].modern-slider::-webkit-slider-runnable-track {
-            height: 4px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 2px;
+            height: 4px; background: rgba(255, 255, 255, 0.1); border-radius: 2px;
         }
         input[type=range].modern-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            height: 14px;
-            width: 14px;
-            border-radius: 50%;
-            background: #fff;
-            margin-top: -5px;
-            box-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
-            cursor: pointer;
-            border: 2px solid #3b82f6;
+            -webkit-appearance: none; height: 16px; width: 16px; border-radius: 50%;
+            background: #fff; margin-top: -6px; border: 2px solid #3b82f6;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
         }
     </style>
     <script type="importmap">
@@ -89,15 +74,16 @@
     "three": "https://esm.sh/three@0.170.0",
     "three-stdlib": "https://esm.sh/three-stdlib@2.30.0?external=three",
     "three/examples/jsm/utils/BufferGeometryUtils.js": "https://esm.sh/three@0.170.0/examples/jsm/utils/BufferGeometryUtils.js",
-    "three/": "https://esm.sh/three@^0.182.0/",
+    "qrcode": "https://esm.sh/qrcode@1.5.3",
     "vite": "https://esm.sh/vite@^7.3.0",
+    "three/": "https://esm.sh/three@^0.182.0/",
     "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2"
   }
 }
 </script>
 <link rel="stylesheet" href="/index.css">
 </head>
-<body>
+<body class="h-full">
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
 </body>
