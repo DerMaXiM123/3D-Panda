@@ -1,4 +1,5 @@
-import React, { useState, useEffect, Suspense, lazy } from 'react';
+
+import React, { useState, useEffect, useRef, Suspense, lazy } from 'react';
 import { 
   LayoutDashboard, Box, Flower2, QrCode, ScanFace, Activity, 
   Settings as SettingsIcon, LogOut, Loader2, Menu, X,
@@ -10,14 +11,12 @@ import Dashboard from './components/Dashboard';
 import AuthGate from './components/Auth/AuthGate';
 import { db } from './services/database';
 
-// Build ID for Cache Verification
-const APP_BUILD_ID = "NEXUS-v12.0.4-STABLE";
+const APP_BUILD_ID = "NEXUS-v12.0.5-ULTRA-WIDE";
 
-// Lazy loaded components with strict path casing
-// Fix: Updated path casing to match the program's expectation (lowercase 'creators')
-const BrickCreator = lazy(() => import('./components/creators/BrickCreator'));
-const VaseCreator = lazy(() => import('./components/creators/VaseCreator'));
-const CalibrationCube = lazy(() => import('./components/creators/CalibrationCube'));
+// Lazy loaded components - Updated to Uppercase folder casing to match canonical filesystem state
+const BrickCreator = lazy(() => import('./components/Creators/BrickCreator'));
+const VaseCreator = lazy(() => import('./components/Creators/VaseCreator'));
+const CalibrationCube = lazy(() => import('./components/Creators/CalibrationCube'));
 const FilamentInventory = lazy(() => import('./components/Inventory/FilamentInventory'));
 const AIChat = lazy(() => import('./components/AIChat'));
 const VisionLab = lazy(() => import('./components/Tools/VisionLab'));
@@ -32,7 +31,7 @@ const LoadingView = () => (
   <div className="flex h-full w-full items-center justify-center bg-[#020617]">
     <div className="flex flex-col items-center gap-4 text-blue-500">
       <Loader2 className="w-12 h-12 animate-spin" />
-      <p className="text-[10px] font-black uppercase tracking-[0.5em] italic animate-pulse">Syncing Nexus Core...</p>
+      <p className="text-[10px] font-black uppercase tracking-[0.5em] italic animate-pulse">Re-Scaling Nexus Core...</p>
     </div>
   </div>
 );
@@ -131,17 +130,23 @@ const App: React.FC = () => {
         <header className="h-16 border-b border-white/5 flex items-center justify-between px-8 glass shrink-0">
            <div className="text-[9px] font-black uppercase text-slate-500 tracking-[0.5em] italic truncate">SYSTEM_NODE // {currentView} // {APP_BUILD_ID}</div>
            <div className="flex items-center gap-6">
-              <div className="flex flex-col items-end">
-                 <p className="text-[10px] font-black italic uppercase text-white leading-none">{currentUser.username}</p>
-                 <p className="text-[8px] font-bold text-blue-500 uppercase tracking-widest mt-1 opacity-60">Operator Prime</p>
+              <div className="flex items-center gap-6">
+                 <div className="flex flex-col items-end text-right">
+                    <p className="text-[10px] font-black italic uppercase text-white leading-tight max-w-[150px] break-words whitespace-normal line-clamp-2">
+                       {currentUser.username}
+                    </p>
+                    <p className="text-[8px] font-bold text-blue-500 uppercase tracking-widest mt-1 opacity-60">Operator Prime</p>
+                 </div>
+                 <img src={currentUser.avatar} className="w-8 h-8 rounded-lg border border-white/10 shadow-lg" alt="Avatar" />
               </div>
-              <img src={currentUser.avatar} className="w-8 h-8 rounded-lg border border-white/10 shadow-lg" alt="Avatar" />
            </div>
         </header>
         
         <div className="flex-1 min-h-0 relative overflow-hidden">
            <Suspense fallback={<LoadingView />}>
-              {renderView()}
+              <div className="h-full w-full overflow-y-auto scrollbar-hide">
+                 {renderView()}
+              </div>
            </Suspense>
         </div>
 

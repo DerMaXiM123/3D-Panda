@@ -123,13 +123,13 @@ const VaseCreator: React.FC = () => {
   useEffect(() => { generateVase(); }, [sides, height, radiusBottom, radiusTop, twist, waves, waveAmplitude]);
 
   return (
-    <div className="flex flex-col h-full w-full bg-[#020617] overflow-hidden p-6 gap-6 animate-in fade-in duration-700">
-      <header className="shrink-0 flex justify-between items-center bg-slate-900/40 p-5 rounded-[24px] border border-white/5">
+    <div className="flex flex-col h-full w-full bg-[#020617] overflow-hidden p-6 lg:p-10 gap-6 lg:gap-10 animate-in fade-in duration-700">
+      <header className="shrink-0 flex justify-between items-center bg-slate-900/40 p-6 rounded-[32px] border border-white/5 w-full">
         <div>
-          <h1 className="text-3xl font-black italic text-white uppercase tracking-tighter leading-none">
+          <h1 className="text-4xl font-black italic text-white uppercase tracking-tighter leading-none">
              VASE <span className="text-blue-500">LAB</span>.
           </h1>
-          <p className="text-slate-500 font-bold uppercase text-[9px] tracking-widest mt-1.5 italic opacity-60">Parametric Modeler // V12.0</p>
+          <p className="text-slate-500 font-bold uppercase text-[10px] tracking-widest mt-2 italic opacity-60">Full-Scale Design Environment</p>
         </div>
         <button onClick={() => {
             if (!meshRef.current) return;
@@ -140,92 +140,55 @@ const VaseCreator: React.FC = () => {
             link.href = URL.createObjectURL(blob);
             link.download = `Vase_Nexus_Solid.stl`;
             link.click();
-        }} className="bg-blue-600 hover:bg-blue-500 text-white px-8 py-3 rounded-[16px] font-black uppercase italic shadow-lg transition-all flex items-center gap-3 text-xs tracking-widest group">
-          <Download size={18} /> EXPORT STL
+        }} className="bg-blue-600 hover:bg-blue-500 text-white px-10 py-4 rounded-[20px] font-black uppercase italic shadow-xl transition-all flex items-center gap-4 text-xs tracking-widest">
+          <Download size={20} /> EXPORT STL
         </button>
       </header>
 
-      <div className="flex-1 flex flex-col gap-6 min-h-0">
-        <section className="flex-[3] grid lg:grid-cols-12 gap-6 min-h-0">
-          <div className="lg:col-span-8 glass rounded-[40px] relative overflow-hidden bg-black/60 border-white/5 shadow-2xl h-full">
+      <div className="flex-1 flex flex-col lg:flex-row gap-6 lg:gap-10 min-h-0 w-full">
+        <div className="flex-1 glass rounded-[48px] lg:rounded-[64px] relative overflow-hidden bg-black/60 border-white/5 shadow-2xl h-full">
              <div ref={mountRef} className="absolute inset-0 cursor-move" />
-             <div className="absolute top-6 left-6 flex flex-col gap-2 pointer-events-none">
-                <div className="bg-black/60 backdrop-blur-xl px-4 py-2 rounded-[16px] border border-emerald-500/20 text-[8px] font-black uppercase text-emerald-400 italic flex items-center gap-2 shadow-2xl">
-                   <ShieldCheck size={12} /> Watertight Geometry
+             <div className="absolute top-8 left-8 flex flex-col gap-3 pointer-events-none">
+                <div className="bg-black/60 backdrop-blur-xl px-5 py-2.5 rounded-2xl border border-emerald-500/20 text-[10px] font-black uppercase text-emerald-400 italic flex items-center gap-2 shadow-2xl">
+                   <ShieldCheck size={14} /> Manifold Mesh Valid
                 </div>
-                <div className="bg-blue-600/10 backdrop-blur-xl px-4 py-2 rounded-[16px] border border-blue-500/20 text-[8px] font-black uppercase text-blue-400 italic flex items-center gap-2 shadow-2xl">
-                   <Activity size={12} className="animate-pulse" /> Live Mesh Engine
+                <div className="bg-blue-600/10 backdrop-blur-xl px-5 py-2.5 rounded-2xl border border-blue-500/20 text-[10px] font-black uppercase text-blue-400 italic flex items-center gap-2 shadow-2xl">
+                   <Activity size={14} className="animate-pulse" /> Live Analysis
                 </div>
              </div>
-             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-blue-600/5 blur-[120px] pointer-events-none rounded-full" />
-          </div>
+             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-blue-600/5 blur-[120px] pointer-events-none rounded-full opacity-50" />
+        </div>
 
-          <div className="lg:col-span-4 glass rounded-[40px] p-8 space-y-8 border-white/5 bg-slate-900/40 flex flex-col overflow-y-auto scrollbar-hide shrink-0 shadow-2xl h-full">
-             <div className="flex items-center gap-3 shrink-0">
-                <div className="w-10 h-10 bg-blue-600/10 rounded-xl flex items-center justify-center text-blue-500 border border-blue-500/20">
-                   <Sliders size={20} />
+        <div className="lg:w-[450px] glass rounded-[48px] lg:rounded-[64px] p-10 space-y-12 border-white/5 bg-slate-900/40 flex flex-col overflow-y-auto scrollbar-hide shrink-0 shadow-2xl h-full">
+             <div className="flex items-center gap-4 shrink-0">
+                <div className="w-14 h-14 bg-blue-600/10 rounded-2xl flex items-center justify-center text-blue-500 border border-blue-500/20 shadow-inner">
+                   <Sliders size={28} />
                 </div>
-                <p className="text-[10px] font-black uppercase text-slate-500 tracking-widest italic">Engineering Sidebar</p>
+                <p className="text-[11px] font-black uppercase text-slate-500 tracking-[0.3em] italic">Engineering Sidecar</p>
              </div>
              
-             <div className="space-y-6 flex-1">
-                <VaseSlider label="Höhe" icon={<MoveUp size={14}/>} value={height} min={20} max={250} onChange={setHeight} />
+             <div className="space-y-8 flex-1">
+                <VaseSlider label="Höhe" icon={<MoveUp size={16}/>} value={height} min={20} max={250} onChange={setHeight} />
                 <VaseSlider label="Basis Radius" value={radiusBottom} min={10} max={100} onChange={setRadiusBottom} />
                 <VaseSlider label="Top Radius" value={radiusTop} min={10} max={100} onChange={setRadiusTop} />
-                <VaseSlider label="Twist" icon={<RotateCw size={14}/>} value={Number((twist * (180/Math.PI)).toFixed(0))} unit="°" min={0} max={720} onChange={(v: number) => setTwist(v * (Math.PI / 180))} />
+                <VaseSlider label="Twist" icon={<RotateCw size={16}/>} value={Number((twist * (180/Math.PI)).toFixed(0))} unit="°" min={0} max={720} onChange={(v: number) => setTwist(v * (Math.PI / 180))} />
                 <VaseSlider label="Wellen" value={waves} min={0} max={30} onChange={setWaves} />
                 <VaseSlider label="Amplitude" value={waveAmplitude} min={0} max={20} step={0.5} onChange={setWaveAmplitude} />
              </div>
           </div>
-        </section>
-
-        <section className="flex-1 grid grid-cols-1 md:grid-cols-4 gap-6 shrink-0 h-full min-h-[160px] pb-4">
-           <TelemetryCard icon={<Binary size={28} />} label="Vertices" value={(sides * 60).toLocaleString()} sub="BUFFER_OPTIMIZED" />
-           <TelemetryCard icon={<Layers size={28} />} label="Print Layers" value={(height / 0.2).toFixed(0)} sub="@ 0.20MM LH" />
-           <TelemetryCard icon={<Gauge size={28} />} label="Memory Node" value="12.4 MB" sub="VRAM_STABLE" />
-           
-           <div className="glass rounded-[32px] p-8 bg-slate-900/40 border-white/5 flex flex-col justify-center shadow-lg font-mono overflow-hidden relative group border-t border-white/10 h-full">
-              <div className="absolute right-4 top-1/2 -translate-y-1/2 opacity-[0.03] group-hover:opacity-10 transition-opacity duration-700">
-                 <Cpu size={120} />
-              </div>
-              <p className="text-[9px] font-black text-blue-500 uppercase tracking-widest italic mb-2 flex items-center gap-2 leading-none">
-                 <Radio size={12} className="animate-pulse" /> Live Uplink
-              </p>
-              <div className="text-[11px] text-slate-400 font-bold uppercase truncate italic">
-                 RENDER_CORE_V12.0_READY...
-              </div>
-              <div className="text-[9px] text-slate-600 font-mono mt-3 flex justify-between">
-                 <span>FPS: 60.00</span>
-                 <span>DL: 12.4MS</span>
-              </div>
-           </div>
-        </section>
-      </div>
+        </div>
     </div>
   );
 };
 
-const TelemetryCard = ({ icon, label, value, sub }: any) => (
-  <div className="glass rounded-[32px] p-8 bg-slate-900/40 border-white/5 flex items-center gap-6 shadow-lg hover:bg-slate-900/60 transition-colors h-full">
-    <div className="w-16 h-16 bg-blue-600/10 rounded-[24px] flex items-center justify-center text-blue-500 border border-blue-500/20 shadow-inner shrink-0">
-       {icon}
-    </div>
-    <div className="min-w-0">
-       <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest italic truncate">{label}</p>
-       <p className="text-2xl font-black text-white italic uppercase mt-0.5 truncate">{value}</p>
-       <p className="text-[8px] font-mono text-blue-400 mt-1 uppercase opacity-60 tracking-tighter truncate">{sub}</p>
-    </div>
-  </div>
-);
-
 const VaseSlider = ({ label, icon, value, unit = "mm", min, max, step = 1, onChange }: any) => (
-  <div className="space-y-2">
+  <div className="space-y-4">
     <div className="flex justify-between items-center px-1">
       <div className="flex items-center gap-2">
         {icon && <span className="text-slate-500">{icon}</span>}
-        <label className="text-[9px] font-black uppercase text-slate-500 italic tracking-widest">{label}</label>
+        <label className="text-[10px] font-black uppercase text-slate-500 italic tracking-widest">{label}</label>
       </div>
-      <span className="text-blue-400 font-black italic text-[11px]">{value}{unit}</span>
+      <span className="text-blue-400 font-black italic text-sm">{value}{unit}</span>
     </div>
     <input type="range" min={min} max={max} step={step} value={value} onChange={e => onChange(parseFloat(e.target.value))} className="modern-slider" />
   </div>

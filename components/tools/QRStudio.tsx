@@ -8,7 +8,6 @@ const QRStudio: React.FC = () => {
   const [filaments, setFilaments] = useState<Filament[]>([]);
   const [selectedId, setSelectedId] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
-  const [showSpecs, setShowSpecs] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -189,59 +188,60 @@ const QRStudio: React.FC = () => {
   }, [selectedId]);
 
   return (
-    <div className="h-full w-full flex flex-col p-6 gap-6 animate-in fade-in duration-700 overflow-hidden relative">
+    <div className="h-full w-full flex flex-col p-6 lg:p-10 gap-6 lg:gap-10 animate-in fade-in duration-700 overflow-hidden relative">
       <div className="scanline opacity-[0.03]" />
       
-      <header className="shrink-0 flex flex-col md:flex-row md:items-end justify-between gap-4 relative z-10">
+      <header className="shrink-0 flex flex-col md:flex-row md:items-end justify-between gap-4 relative z-10 w-full">
         <div>
-          <h1 className="text-4xl font-black italic text-white uppercase tracking-tighter leading-none">
+          <h1 className="text-4xl lg:text-5xl font-black italic text-white uppercase tracking-tighter leading-none">
              TAG <span className="text-blue-500">FORGE</span>.
           </h1>
-          <p className="text-slate-500 font-bold uppercase text-[9px] tracking-[0.7em] mt-2 italic opacity-60 ml-1">Asset Node // V7.0</p>
+          <p className="text-slate-500 font-bold uppercase text-[10px] tracking-[0.7em] mt-3 italic opacity-60 ml-1">Universal Asset Logistics Module</p>
         </div>
       </header>
 
-      <div className="flex-1 flex flex-col gap-6 min-h-0 relative z-10">
-        <section className="flex-[4] grid lg:grid-cols-12 gap-6 min-h-0">
-          <div className="lg:col-span-4 glass rounded-[40px] p-8 border-white/5 bg-[#0f172a]/40 flex flex-col shadow-xl overflow-hidden h-full">
+      <div className="flex-1 flex flex-col gap-6 lg:gap-10 min-h-0 relative z-10 w-full">
+        <section className="flex-[4] grid lg:grid-cols-12 gap-6 lg:gap-10 min-h-0">
+          <div className="lg:col-span-4 glass rounded-[48px] lg:rounded-[64px] p-10 border-white/5 bg-[#0f172a]/40 flex flex-col shadow-xl overflow-hidden h-full">
              <div className="shrink-0 mb-8 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                   <div className="w-10 h-10 bg-blue-600/10 rounded-xl flex items-center justify-center text-blue-500 border border-blue-500/20">
-                      <Database size={20} />
+                <div className="flex items-center gap-4">
+                   <div className="w-12 h-12 bg-blue-600/10 rounded-2xl flex items-center justify-center text-blue-500 border border-blue-500/20">
+                      <Database size={24} />
                    </div>
-                   <p className="text-[10px] font-black uppercase text-slate-500 tracking-widest italic">Registry</p>
+                   <p className="text-[12px] font-black uppercase text-slate-500 tracking-widest italic">Registry</p>
                 </div>
-                <span className="bg-white/5 px-3 py-1 rounded-full text-[8px] font-mono text-slate-500 border border-white/5">{filaments.length} UNITS</span>
+                <span className="bg-white/5 px-4 py-1.5 rounded-full text-[9px] font-mono text-slate-500 border border-white/5">{filaments.length} UNITS</span>
              </div>
              
-             <div className="flex-1 overflow-y-auto space-y-3 pr-2 scrollbar-hide">
+             <div className="flex-1 overflow-y-auto space-y-4 pr-3 scrollbar-hide">
                 {filaments.map(f => (
                   <button 
                     key={f.id} 
                     onClick={() => setSelectedId(f.id)}
-                    className={`w-full flex items-center gap-5 p-5 rounded-[28px] border transition-all group ${selectedId === f.id ? 'bg-blue-600 border-blue-500 text-white shadow-lg scale-[1.02]' : 'bg-white/5 border-transparent text-slate-400 hover:bg-white/10'}`}
+                    className={`w-full flex items-center gap-6 p-6 rounded-[32px] border transition-all group ${selectedId === f.id ? 'bg-blue-600 border-blue-500 text-white shadow-xl scale-[1.02]' : 'bg-white/5 border-transparent text-slate-400 hover:bg-white/10'}`}
                   >
-                     <div className="w-14 h-14 rounded-[18px] shadow-lg border border-white/10 flex-shrink-0 relative overflow-hidden" style={{ backgroundColor: f.hex }}>
+                     <div className="w-16 h-16 rounded-[22px] shadow-lg border border-white/10 flex-shrink-0 relative overflow-hidden" style={{ backgroundColor: f.hex }}>
                         <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent" />
                      </div>
                      <div className="text-left min-w-0 flex-1">
-                        <p className="text-base font-black italic uppercase truncate leading-none">{f.color}</p>
-                        <p className={`text-[9px] font-bold uppercase mt-2 tracking-tighter ${selectedId === f.id ? 'text-blue-100' : 'text-slate-500'}`}>{f.material} // {f.brand}</p>
+                        {/* Fixed name wrap in sidebar selection */}
+                        <p className="text-lg font-black italic uppercase whitespace-normal break-words leading-tight">{f.color}</p>
+                        <p className={`text-[10px] font-bold uppercase mt-2 tracking-tighter ${selectedId === f.id ? 'text-blue-100' : 'text-slate-500'}`}>{f.material} // {f.brand}</p>
                      </div>
-                     <ChevronRight size={20} className={`transition-transform duration-300 ${selectedId === f.id ? 'translate-x-1 opacity-100' : 'opacity-0 group-hover:opacity-100'}`} />
+                     <ChevronRight size={24} className={`transition-transform duration-300 ${selectedId === f.id ? 'translate-x-1 opacity-100' : 'opacity-0 group-hover:opacity-100'}`} />
                   </button>
                 ))}
              </div>
           </div>
 
-          <div className="lg:col-span-8 glass rounded-[48px] border-white/5 bg-[#020617]/60 flex flex-col items-center justify-center p-8 lg:p-12 shadow-2xl relative overflow-hidden h-full border-t border-l border-white/10">
+          <div className="lg:col-span-8 glass rounded-[48px] lg:rounded-[64px] border-white/5 bg-[#020617]/60 flex flex-col items-center justify-center p-8 lg:p-20 shadow-2xl relative overflow-hidden h-full">
              {selectedId ? (
                <div className="w-full h-full flex flex-col items-center justify-center gap-12 animate-in zoom-in-95 duration-700 relative z-10">
-                  <div className="bg-white p-1 rounded-[32px] shadow-[0_40px_100px_rgba(0,0,0,0.8)] overflow-hidden w-full max-w-3xl transform hover:scale-[1.01] transition-transform duration-500">
-                     <canvas ref={canvasRef} className="w-full h-auto rounded-[31px]" />
+                  <div className="bg-white p-2 rounded-[40px] shadow-[0_60px_150px_rgba(0,0,0,1)] overflow-hidden w-full max-w-4xl transform hover:scale-[1.01] transition-transform duration-500">
+                     <canvas ref={canvasRef} className="w-full h-auto rounded-[38px]" />
                   </div>
                   
-                  <div className="flex gap-6">
+                  <div className="flex gap-8">
                     <button 
                       onClick={() => {
                         const link = document.createElement('a');
@@ -249,40 +249,33 @@ const QRStudio: React.FC = () => {
                         link.href = canvasRef.current?.toDataURL('image/png') || '';
                         link.click();
                       }}
-                      className="bg-blue-600 hover:bg-blue-500 text-white py-6 px-16 rounded-[28px] font-black italic uppercase tracking-widest text-sm flex items-center justify-center gap-5 transition-all shadow-xl group"
+                      className="bg-blue-600 hover:bg-blue-500 text-white py-8 px-20 rounded-[32px] font-black italic uppercase tracking-widest text-base flex items-center justify-center gap-6 transition-all shadow-2xl group"
                     >
-                       <Download size={24} className="group-hover:translate-y-1 transition-transform" /> 
-                       DOWNLOAD TAG
-                    </button>
-                    <button onClick={() => setShowSpecs(!showSpecs)} className={`p-6 rounded-[28px] border transition-all ${showSpecs ? 'bg-blue-600 text-white shadow-lg' : 'bg-white/5 text-slate-500 hover:text-white hover:bg-white/10'}`}>
-                       <Maximize2 size={30} />
+                       <Download size={28} className="group-hover:translate-y-1 transition-transform" /> 
+                       DOWNLOAD ASSET TAG
                     </button>
                   </div>
                </div>
              ) : (
                <div className="text-center opacity-10 italic">
-                  <QrCode size={100} className="mx-auto mb-8" />
-                  <p className="text-base font-black uppercase tracking-[0.5em]">Standby for Input</p>
+                  <QrCode size={150} className="mx-auto mb-10" />
+                  <p className="text-2xl font-black uppercase tracking-[0.6em]">Standby for Input</p>
                </div>
              )}
           </div>
         </section>
 
-        <section className="flex-1 grid grid-cols-1 md:grid-cols-4 gap-6 shrink-0 mb-2 h-full min-h-[160px]">
-           <TelemetryCard icon={<Cpu size={28} />} label="Core Engine" value="Active" sub="V7.2 OPTIMIZED" />
-           <TelemetryCard icon={<ShieldCheck size={28} />} label="Integrity" value="100%" sub="ECC_SECURE" />
-           <TelemetryCard icon={<BarChart3 size={28} />} label="Node Load" value="Minimal" sub="V7.2_CORE" />
+        <section className="flex-1 grid grid-cols-1 md:grid-cols-4 gap-6 shrink-0 mb-2 h-full min-h-[160px] w-full">
+           <TelemetryCard icon={<Cpu size={32} />} label="Core Engine" value="Active" sub="V7.2 OPTIMIZED" />
+           <TelemetryCard icon={<ShieldCheck size={32} />} label="Integrity" value="100%" sub="ECC_SECURE" />
+           <TelemetryCard icon={<BarChart3 size={32} />} label="Node Load" value="Minimal" sub="STABLE_CORE" />
            
-           <div className="glass rounded-[32px] p-8 bg-slate-900/40 border-white/5 flex flex-col justify-center shadow-lg font-mono overflow-hidden relative group border-t border-white/10">
-              <p className="text-[9px] font-black text-blue-500 uppercase tracking-widest italic mb-2 flex items-center gap-2 leading-none">
-                 <Radio size={12} className="animate-pulse" /> Live Uplink
+           <div className="glass rounded-[40px] p-10 bg-slate-900/40 border-white/5 flex flex-col justify-center shadow-lg font-mono overflow-hidden relative group border-t border-white/10">
+              <p className="text-[10px] font-black text-blue-500 uppercase tracking-widest italic mb-2 flex items-center gap-2 leading-none">
+                 <Radio size={14} className="animate-pulse" /> Asset Uplink
               </p>
-              <div className="text-[11px] text-slate-400 font-bold uppercase truncate italic">
+              <div className="text-xs text-slate-400 font-bold uppercase truncate italic">
                  {selectedId ? `STREAM_NODE_${selectedId.substring(0,10)}...` : 'SYS_IDLE: STANDBY'}
-              </div>
-              <div className="text-[9px] text-slate-600 font-mono mt-3 flex justify-between">
-                 <span>TX: 1.2 GB/S</span>
-                 <span>RX: 0.8 GB/S</span>
               </div>
            </div>
         </section>
@@ -292,14 +285,14 @@ const QRStudio: React.FC = () => {
 };
 
 const TelemetryCard = ({ icon, label, value, sub }: any) => (
-  <div className="glass rounded-[32px] p-8 bg-slate-900/40 border-white/5 flex items-center gap-6 shadow-lg hover:bg-slate-900/60 transition-colors">
-    <div className="w-16 h-16 bg-blue-600/10 rounded-[24px] flex items-center justify-center text-blue-500 border border-blue-500/20 shadow-inner">
+  <div className="glass rounded-[40px] p-10 bg-slate-900/40 border-white/5 flex items-center gap-8 shadow-lg hover:bg-slate-900/60 transition-colors">
+    <div className="w-18 h-18 bg-blue-600/10 rounded-[28px] flex items-center justify-center text-blue-500 border border-blue-500/20 shadow-inner shrink-0 p-4">
        {icon}
     </div>
     <div>
-       <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest italic">{label}</p>
-       <p className="text-2xl font-black text-white italic uppercase mt-0.5">{value}</p>
-       <p className="text-[8px] font-mono text-blue-400 mt-1 uppercase opacity-60 tracking-tighter">{sub}</p>
+       <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest italic">{label}</p>
+       <p className="text-3xl font-black text-white italic uppercase mt-1">{value}</p>
+       <p className="text-[9px] font-mono text-blue-400 mt-1 uppercase opacity-60 tracking-tighter">{sub}</p>
     </div>
   </div>
 );
