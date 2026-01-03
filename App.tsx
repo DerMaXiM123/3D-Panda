@@ -10,14 +10,11 @@ import Dashboard from './components/Dashboard';
 import AuthGate from './components/Auth/AuthGate';
 import { db } from './services/database';
 
-const APP_BUILD_ID = "NEXUS-v12.1.0-STABLE";
+const APP_BUILD_ID = "NEXUS-v12.1.4-STABLE";
 
-// Wichtig: Großschreibung der Ordner muss exakt mit dem Dateisystem übereinstimmen
-/* Fix: Updated import paths to use lowercase 'creators' folder to resolve casing conflicts reported by the compiler */
+// Lazy loaded components - PATHS MUST MATCH FILESYSTEM EXACTLY (Case Sensitive)
 const BrickCreator = lazy(() => import('./components/creators/BrickCreator'));
-/* Fix: Updated import paths to use lowercase 'creators' folder to resolve casing conflicts reported by the compiler */
 const VaseCreator = lazy(() => import('./components/creators/VaseCreator'));
-/* Fix: Updated import paths to use lowercase 'creators' folder to resolve casing conflicts reported by the compiler */
 const CalibrationCube = lazy(() => import('./components/creators/CalibrationCube'));
 const FilamentInventory = lazy(() => import('./components/Inventory/FilamentInventory'));
 const AIChat = lazy(() => import('./components/AIChat'));

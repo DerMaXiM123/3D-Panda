@@ -6,8 +6,6 @@ import {
   Ruler, Gauge, MessageSquare, Microscope, FileCode, QrCode, Mountain, Target, ArrowUpRight
 } from 'lucide-react';
 import { db } from '../services/database';
-// Wichtig: Pfad-Casing muss exakt sein
-/* Fix: Adjusted casing to lowercase 'ads' folder to resolve conflict with duplicate file paths in the project graph */
 import AdBanner from './ads/AdBanner';
 
 interface DashboardProps {
