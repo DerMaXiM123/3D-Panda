@@ -11,19 +11,18 @@ import Dashboard from './components/Dashboard';
 import AuthGate from './components/Auth/AuthGate';
 import { db } from './services/database';
 
-const APP_BUILD_ID = "NEXUS-v12.0.6-FINAL-WIDE";
+const APP_BUILD_ID = "NEXUS-v12.0.7-FIXED";
 
-// Lazy loaded components - Normalized to match canonical file casing
-// Fix: Changed directory casing from 'creators' to 'Creators' for BrickCreator, VaseCreator, and CalibrationCube to align with the canonical paths already recognized by the compiler and resolve casing mismatch errors.
+// Fix: Adjusted directory casing to 'Creators' to resolve inconsistent casing errors in imports
 const BrickCreator = lazy(() => import('./components/Creators/BrickCreator'));
 const VaseCreator = lazy(() => import('./components/Creators/VaseCreator'));
 const CalibrationCube = lazy(() => import('./components/Creators/CalibrationCube'));
 const FilamentInventory = lazy(() => import('./components/Inventory/FilamentInventory'));
 const AIChat = lazy(() => import('./components/AIChat'));
-const VisionLab = lazy(() => import('./components/Tools/VisionLab'));
-const GCodeAnalyst = lazy(() => import('./components/Tools/GCodeAnalyst'));
-const STLInspector = lazy(() => import('./components/Tools/STLInspector'));
-const QRStudio = lazy(() => import('./components/Tools/QRStudio'));
+const VisionLab = lazy(() => import('./components/tools/VisionLab'));
+const GCodeAnalyst = lazy(() => import('./components/tools/GCodeAnalyst'));
+const STLInspector = lazy(() => import('./components/tools/STLInspector'));
+const QRStudio = lazy(() => import('./components/tools/QRStudio'));
 const ProjectManager = lazy(() => import('./components/Projects/ProjectManager'));
 const Settings = lazy(() => import('./components/Settings'));
 
@@ -130,7 +129,7 @@ const App: React.FC = () => {
            <div className="flex items-center gap-6">
               <div className="flex items-center gap-6">
                  <div className="flex flex-col items-end text-right min-w-0">
-                    <p className="text-[10px] font-black italic uppercase text-white leading-tight max-w-[200px] break-all whitespace-normal line-clamp-2">
+                    <p className="text-[10px] font-black italic uppercase text-white leading-tight max-w-[180px] break-all whitespace-normal line-clamp-2">
                        {currentUser.username}
                     </p>
                     <p className="text-[8px] font-bold text-blue-500 uppercase tracking-widest mt-1 opacity-60">Operator Prime</p>

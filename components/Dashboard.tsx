@@ -7,8 +7,8 @@ import {
   Ruler, Gauge, MessageSquare, Microscope, FileCode, QrCode, Mountain, Target, ArrowUpRight
 } from 'lucide-react';
 import { db } from '../services/database';
-// Fix: Changed import casing from './Ads/AdBanner' to './ads/AdBanner' to resolve the conflict with the already recognized file path in the program.
-import AdBanner from './ads/AdBanner';
+// Fix: Adjusted directory casing to 'Ads' to match already included file paths
+import AdBanner from './Ads/AdBanner';
 
 interface DashboardProps {
   onViewChange: (view: AppView) => void;

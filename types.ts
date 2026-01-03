@@ -32,7 +32,6 @@ export enum AppView {
   STL_VIEWER = 'STL_VIEWER',
   FLOW_CALC = 'FLOW_CALC',
   PRINT_LOG = 'PRINT_LOG',
-  RESIN_LAB = 'RESIN_LAB',
   COMPARE_LAB = 'COMPARE_LAB',
   SYNC_CENTER = 'SYNC_CENTER',
   QR_STUDIO = 'QR_STUDIO',
@@ -53,7 +52,7 @@ export interface Filament {
   price?: number;
   status: FilamentStatus;
   activePrinterId?: string;
-  slotIndex?: number; // For AMS/MMU systems
+  slotIndex?: number; 
   lastUsed?: string;
 }
 
@@ -67,7 +66,7 @@ export interface Printer {
   totalPrintTime: number; 
   lastMaintenance: string;
   status: 'Idle' | 'Printing' | 'Offline' | 'Error';
-  slots?: number; // Number of filament slots (e.g. 4 for AMS)
+  slots?: number;
 }
 
 export interface PrintLogEntry {
@@ -76,8 +75,8 @@ export interface PrintLogEntry {
   printerId: string;
   filamentId: string;
   startTime: string;
-  duration: number; // in hours
-  weight: number; // in grams
+  duration: number;
+  weight: number;
   status: 'Success' | 'Failed';
   notes: string;
   imageUrl?: string;
@@ -115,38 +114,10 @@ export interface PrivateMessage {
   timestamp: string;
 }
 
-export interface Post {
-  id: string;
-  user: string;
-  avatar: string;
-  image: string;
-  caption: string;
-  likes: number;
-  comments: number;
-  timestamp: string;
-}
-
 export interface ChatMessage {
   role: 'user' | 'model';
   text: string;
   timestamp: Date;
-}
-
-export interface Broadcast {
-  id: string;
-  userId: string;
-  username: string;
-  startTime: string;
-  title: string;
-}
-
-export interface WebRTCSignal {
-  id: string;
-  from: string;
-  to: string;
-  type: 'offer' | 'answer' | 'ice-candidate';
-  data: any;
-  timestamp: number;
 }
 
 export interface MaintenanceTask {
@@ -174,6 +145,19 @@ export interface Project {
   deadline?: string;
 }
 
+// Added missing Post interface for Community Hub
+export interface Post {
+  id: string;
+  user: string;
+  avatar: string;
+  image: string;
+  caption: string;
+  likes: number;
+  comments: number;
+  timestamp: string;
+}
+
+// Added missing ResinProfile interface for Resin Lab
 export interface ResinProfile {
   id: string;
   brand: string;
@@ -182,4 +166,23 @@ export interface ResinProfile {
   exposureTime: number;
   bottomExposure: number;
   pricePerLiter: number;
+}
+
+// Added missing Broadcast interface for Live Workshop
+export interface Broadcast {
+  id: string;
+  userId: string;
+  username: string;
+  startTime: string;
+  title: string;
+}
+
+// Added missing WebRTCSignal interface for peer-to-peer signaling
+export interface WebRTCSignal {
+  id: string;
+  from: string;
+  to: string;
+  type: 'offer' | 'answer' | 'ice-candidate' | 'chat';
+  data: any;
+  timestamp: number;
 }

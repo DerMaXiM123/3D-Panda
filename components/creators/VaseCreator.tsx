@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Download, Sliders, Activity, ShieldCheck, Binary, RotateCw, MoveUp, Box, Layers, Gauge, Cpu, Radio } from 'lucide-react';
 import * as THREE from 'three';
 import { OrbitControls, STLExporter } from 'three-stdlib';
+import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 const VaseCreator: React.FC = () => {
   const [sides, setSides] = useState(128);
@@ -68,58 +69,57 @@ const VaseCreator: React.FC = () => {
     
     const segmentsY = 60;
     const segmentsX = sides;
-    const vertices: number[] = [];
-    const indices: number[] = [];
+    const geometries: THREE.BufferGeometry[] = [];
 
-    // 1. Mittelpunkt am Boden hinzufügen (Index 0)
-    vertices.push(0, 0, 0);
-
-    // 2. Körper-Vertices generieren
+    // 1. Die Wand der Vase
+    const wallVertices: number[] = [];
+    const wallIndices: number[] = [];
     for (let y = 0; y <= segmentsY; y++) {
       const v = y / segmentsY;
       const currentHeight = v * height;
       const currentTwist = v * twist;
       const baseR = THREE.MathUtils.lerp(radiusBottom, radiusTop, v);
-      
       for (let x = 0; x < segmentsX; x++) {
         const u = x / segmentsX;
         const angle = u * Math.PI * 2 + currentTwist;
         const wave = Math.sin(u * Math.PI * 2 * waves) * waveAmplitude;
         const finalR = baseR + wave;
-        vertices.push(Math.cos(angle) * finalR, currentHeight, Math.sin(angle) * finalR);
+        wallVertices.push(Math.cos(angle) * finalR, currentHeight, Math.sin(angle) * finalR);
       }
     }
-
-    // 3. Wand-Indices generieren
     for (let y = 0; y < segmentsY; y++) {
-      const start = 1 + (y * segmentsX);
-      const next = 1 + ((y + 1) * segmentsX);
       for (let x = 0; x < segmentsX; x++) {
-        const xNext = (x + 1) % segmentsX;
-        const a = start + x; const b = start + xNext;
-        const c = next + x; const d = next + xNext;
-        indices.push(a, b, c);
-        indices.push(b, d, c);
+        const a = y * segmentsX + x;
+        const b = y * segmentsX + (x + 1) % segmentsX;
+        const c = (y + 1) * segmentsX + x;
+        const d = (y + 1) * segmentsX + (x + 1) % segmentsX;
+        wallIndices.push(a, b, c, b, d, c);
       }
     }
+    const wallGeo = new THREE.BufferGeometry();
+    wallGeo.setIndex(wallIndices);
+    wallGeo.setAttribute('position', new THREE.Float32BufferAttribute(wallVertices, 3));
+    geometries.push(wallGeo);
 
-    // 4. FIX: Boden-Kappe triangulieren (Mittelpunkt 0 zu dem ersten Ring)
-    // Wir verbinden Vertex 0 mit dem Ring y=0 (Indices 1 bis segmentsX)
-    for (let x = 0; x < segmentsX; x++) {
-      const xCurr = 1 + x;
-      const xNext = 1 + ((x + 1) % segmentsX);
-      // Triangle: Center, Current Ring Vertex, Next Ring Vertex
-      // Reihenfolge wichtig für Normale (Counter-Clockwise)
-      indices.push(0, xNext, xCurr);
+    // 2. Der Boden (Airtight Cap)
+    const baseShape = new THREE.Shape();
+    for(let x=0; x<segmentsX; x++) {
+       const u = x / segmentsX;
+       const wave = Math.sin(u * Math.PI * 2 * waves) * waveAmplitude;
+       const finalR = radiusBottom + wave;
+       const px = Math.cos(u * Math.PI * 2) * finalR;
+       const py = Math.sin(u * Math.PI * 2) * finalR;
+       if(x === 0) baseShape.moveTo(px, py); else baseShape.lineTo(px, py);
     }
+    const capGeo = new THREE.ShapeGeometry(baseShape);
+    capGeo.rotateX(Math.PI / 2);
+    geometries.push(capGeo);
 
-    const geometry = new THREE.BufferGeometry();
-    geometry.setIndex(indices);
-    geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
-    geometry.computeVertexNormals();
+    const mergedGeo = BufferGeometryUtils.mergeGeometries(geometries);
+    mergedGeo.computeVertexNormals();
 
     meshRef.current = new THREE.Mesh(
-      geometry, 
+      mergedGeo, 
       new THREE.MeshStandardMaterial({ 
         color: 0x3b82f6, 
         roughness: 0.2, 
