@@ -10,12 +10,14 @@ import Dashboard from './components/Dashboard';
 import AuthGate from './components/Auth/AuthGate';
 import { db } from './services/database';
 
-const APP_BUILD_ID = "NEXUS-v12.0.8-STABLE";
+const APP_BUILD_ID = "NEXUS-v12.1.0-STABLE";
 
-// Lazy loaded components - Pfade müssen exakt dem Dateisystem entsprechen
-// Fix: Adjusted folder casing to lowercase 'creators' to resolve TS import conflicts and redundant file inclusion
+// Wichtig: Großschreibung der Ordner muss exakt mit dem Dateisystem übereinstimmen
+/* Fix: Updated import paths to use lowercase 'creators' folder to resolve casing conflicts reported by the compiler */
 const BrickCreator = lazy(() => import('./components/creators/BrickCreator'));
+/* Fix: Updated import paths to use lowercase 'creators' folder to resolve casing conflicts reported by the compiler */
 const VaseCreator = lazy(() => import('./components/creators/VaseCreator'));
+/* Fix: Updated import paths to use lowercase 'creators' folder to resolve casing conflicts reported by the compiler */
 const CalibrationCube = lazy(() => import('./components/creators/CalibrationCube'));
 const FilamentInventory = lazy(() => import('./components/Inventory/FilamentInventory'));
 const AIChat = lazy(() => import('./components/AIChat'));
@@ -93,7 +95,7 @@ const App: React.FC = () => {
           <NavItem icon={<LayoutDashboard size={20}/>} label="Command" active={currentView === AppView.DASHBOARD} onClick={() => setCurrentView(AppView.DASHBOARD)} open={isSidebarOpen} />
           
           <div className={`mt-6 mb-2 px-4 ${!isSidebarOpen && 'hidden'}`}>
-             <p className="text-[8px] font-black text-slate-600 uppercase tracking-widest italic">Logistics</p>
+             <p className="text-[8px] font-black text-slate-600 uppercase tracking-widest italic">Core Logistics</p>
           </div>
           <NavItem icon={<Database size={20}/>} label="Lager" active={currentView === AppView.INVENTORY} onClick={() => setCurrentView(AppView.INVENTORY)} open={isSidebarOpen} />
           <NavItem icon={<Briefcase size={20}/>} label="Projekte" active={currentView === AppView.PROJECT_MANAGER} onClick={() => setCurrentView(AppView.PROJECT_MANAGER)} open={isSidebarOpen} />
@@ -106,12 +108,12 @@ const App: React.FC = () => {
           <NavItem icon={<Binary size={20}/>} label="Cali-Cube" active={currentView === AppView.CREATOR_CUBE} onClick={() => setCurrentView(AppView.CREATOR_CUBE)} open={isSidebarOpen} />
           
           <div className={`mt-6 mb-2 px-4 ${!isSidebarOpen && 'hidden'}`}>
-             <p className="text-[8px] font-black text-slate-600 uppercase tracking-widest italic">Analysis</p>
+             <p className="text-[8px] font-black text-slate-600 uppercase tracking-widest italic">Engineering</p>
           </div>
-          <NavItem icon={<FileCode size={20}/>} label="G-Code" active={currentView === AppView.GCODE_ANALYST} onClick={() => setCurrentView(AppView.GCODE_ANALYST)} open={isSidebarOpen} />
+          <NavItem icon={<FileCode size={20}/>} label="Analyst" active={currentView === AppView.GCODE_ANALYST} onClick={() => setCurrentView(AppView.GCODE_ANALYST)} open={isSidebarOpen} />
           <NavItem icon={<Microscope size={20}/>} label="STL Viewer" active={currentView === AppView.STL_VIEWER} onClick={() => setCurrentView(AppView.STL_VIEWER)} open={isSidebarOpen} />
           <NavItem icon={<ScanFace size={20}/>} label="Surface AI" active={currentView === AppView.VISION_LAB} onClick={() => setCurrentView(AppView.VISION_LAB)} open={isSidebarOpen} />
-          <NavItem icon={<QrCode size={20}/>} label="Tags" active={currentView === AppView.QR_STUDIO} onClick={() => setCurrentView(AppView.QR_STUDIO)} open={isSidebarOpen} />
+          <NavItem icon={<QrCode size={20}/>} label="Label Studio" active={currentView === AppView.QR_STUDIO} onClick={() => setCurrentView(AppView.QR_STUDIO)} open={isSidebarOpen} />
         </div>
         
         <div className="p-4 mt-auto border-t border-white/5 space-y-1 shrink-0">
@@ -125,15 +127,13 @@ const App: React.FC = () => {
 
       <main className="flex-1 min-w-0 flex flex-col bg-[#020617] h-screen relative overflow-hidden">
         <header className="h-16 border-b border-white/5 flex items-center justify-between px-8 glass shrink-0">
-           <div className="text-[9px] font-black uppercase text-slate-500 tracking-[0.5em] italic truncate min-w-0">
-              SYS_NODE // {currentView} // {APP_BUILD_ID}
-           </div>
-           <div className="flex items-center gap-4 shrink-0">
+           <div className="text-[9px] font-black uppercase text-slate-500 tracking-[0.5em] italic truncate">SYSTEM_NODE // {currentView} // {APP_BUILD_ID}</div>
+           <div className="flex items-center gap-6">
               <div className="flex flex-col items-end text-right min-w-0">
                  <p className="text-[10px] font-black italic uppercase text-white leading-tight max-w-[150px] break-all whitespace-normal line-clamp-2">
                     {currentUser.username}
                  </p>
-                 <p className="text-[8px] font-bold text-blue-500 uppercase tracking-widest opacity-60">Operator Prime</p>
+                 <p className="text-[8px] font-bold text-blue-500 uppercase tracking-widest mt-1 opacity-60">Operator Prime</p>
               </div>
               <img src={currentUser.avatar} className="w-8 h-8 rounded-lg border border-white/10 shadow-lg shrink-0" alt="Avatar" />
            </div>
@@ -151,11 +151,11 @@ const App: React.FC = () => {
            <div className="flex items-center gap-6">
               <div className="flex items-center gap-2 text-blue-500/50">
                  <Cpu size={10} />
-                 <span className="text-[7px] font-black uppercase tracking-widest italic">Core Active</span>
+                 <span className="text-[7px] font-black uppercase tracking-widest italic">Core: Active</span>
               </div>
               <div className="flex items-center gap-2 text-emerald-500/50">
                  <ShieldCheck size={10} />
-                 <span className="text-[7px] font-black uppercase tracking-widest italic">AES-256</span>
+                 <span className="text-[7px] font-black uppercase tracking-widest italic">Stable V12</span>
               </div>
            </div>
            <div className="flex items-center gap-4 text-blue-400">

@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import { db } from '../services/database';
 // Wichtig: Pfad-Casing muss exakt sein
-// Fix: Adjusted folder casing to lowercase 'ads' to resolve TS import conflicts
+/* Fix: Adjusted casing to lowercase 'ads' folder to resolve conflict with duplicate file paths in the project graph */
 import AdBanner from './ads/AdBanner';
 
 interface DashboardProps {
@@ -26,30 +26,30 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange, user }) => {
   }, []);
 
   return (
-    <div className="h-full w-full flex flex-col p-6 lg:p-10 gap-6 lg:gap-10 animate-in fade-in duration-700 overflow-x-hidden">
+    <div className="h-full w-full flex flex-col p-6 lg:p-10 gap-6 lg:gap-10 animate-in fade-in duration-700 overflow-x-hidden overflow-y-auto scrollbar-hide">
       <header className="shrink-0 flex flex-col xl:flex-row xl:items-end justify-between gap-6 w-full">
         <div className="space-y-4">
           <div className="flex items-center gap-3">
             <div className="px-4 py-1.5 bg-blue-600/10 border border-blue-500/20 rounded-full flex items-center gap-2.5">
               <ShieldCheck size={14} className="text-blue-500" />
-              <span className="text-[9px] font-black uppercase text-blue-400 tracking-[0.3em] italic">SYSTEM STATUS: NOMINAL</span>
+              <span className="text-[9px] font-black uppercase text-blue-400 tracking-[0.3em] italic">TERMINAL STATUS: NOMINAL</span>
             </div>
           </div>
           <h1 className="text-6xl lg:text-9xl font-black tracking-tighter italic uppercase text-white leading-[0.85]">
             NEXUS <span className="text-blue-600">HUB</span>.
           </h1>
           <p className="text-slate-500 font-bold uppercase text-[10px] lg:text-[11px] tracking-[0.8em] italic opacity-60 ml-2 whitespace-normal break-all max-w-2xl line-clamp-2">
-             ACCESS GRANTED // {user.username.toUpperCase()}
+             CORE ACCESS GRANTED // {user.username.toUpperCase()}
           </p>
         </div>
         
         <div className="flex gap-10">
            <div className="text-right">
-              <p className="text-[10px] font-black text-slate-600 uppercase tracking-widest italic">INV_WEIGHT</p>
+              <p className="text-[10px] font-black text-slate-600 uppercase tracking-widest italic">INVENTORY WEIGHT</p>
               <p className="text-4xl lg:text-5xl font-black italic text-white mt-1 leading-none">{(stats.totalWeight/1000).toFixed(1)} <span className="text-blue-500">KG</span></p>
            </div>
            <div className="text-right">
-              <p className="text-[10px] font-black text-slate-600 uppercase tracking-widest italic">ACTIVE_NODES</p>
+              <p className="text-[10px] font-black text-slate-600 uppercase tracking-widest italic">ACTIVE NODES</p>
               <p className="text-4xl lg:text-5xl font-black italic text-white mt-1 leading-none">{stats.count}</p>
            </div>
         </div>
@@ -65,26 +65,26 @@ const Dashboard: React.FC<DashboardProps> = ({ onViewChange, user }) => {
             </div>
             <div className="relative z-10">
                <div className="bg-white/20 p-5 lg:p-6 rounded-3xl w-max mb-8 lg:mb-12"><Target size={48} className="lg:w-[64px] lg:h-[64px] text-white" /></div>
-               <h2 className="text-6xl lg:text-8xl font-black italic uppercase tracking-tighter leading-none mb-6 lg:mb-10">Brick Lab</h2>
-               <p className="text-blue-100 font-bold uppercase text-xs lg:text-base tracking-widest italic opacity-80 max-w-2xl leading-relaxed">Präzisions-CAD für Klemmbausteine. Parametrischer Geometrie-Generator.</p>
+               <h2 className="text-6xl lg:text-8xl font-black italic uppercase tracking-tighter leading-none mb-6 lg:mb-10">Brick Lab Pro</h2>
+               <p className="text-blue-100 font-bold uppercase text-xs lg:text-base tracking-widest italic opacity-80 max-w-2xl leading-relaxed">Präzisions-CAD für Klemmbausteine. Parametrische Architektur für FDM-Optimierung.</p>
             </div>
             <div className="relative z-10 flex items-center justify-between mt-8">
-               <span className="bg-white text-blue-600 px-10 lg:px-14 py-5 lg:py-6 rounded-[24px] lg:rounded-[32px] font-black uppercase italic tracking-widest text-xs lg:text-sm shadow-xl">Execute</span>
+               <span className="bg-white text-blue-600 px-10 lg:px-14 py-5 lg:py-6 rounded-[24px] lg:rounded-[32px] font-black uppercase italic tracking-widest text-xs lg:text-sm shadow-xl">Execute Module</span>
                <ArrowUpRight size={32} className="lg:w-[48px] lg:h-[48px] group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform text-white opacity-40 group-hover:opacity-100" />
             </div>
          </div>
 
-         <NodeCard icon={<Database />} label="Lager" desc="Material Logistics" onClick={() => onViewChange(AppView.INVENTORY)} color="emerald" />
-         <NodeCard icon={<Flower2 />} label="Vase Lab" desc="Solid Base Pro" onClick={() => onViewChange(AppView.CREATOR_VASE)} color="blue" />
+         <NodeCard icon={<Database />} label="Material-Lager" desc="Filament Logistics" onClick={() => onViewChange(AppView.INVENTORY)} color="emerald" />
+         <NodeCard icon={<Flower2 />} label="Vase Lab" desc="Solid Base Studio" onClick={() => onViewChange(AppView.CREATOR_VASE)} color="blue" />
          <NodeCard icon={<ScanFace />} label="Surface AI" desc="Neural Geometry" onClick={() => onViewChange(AppView.VISION_LAB)} color="purple" />
          
-         <NodeCard icon={<FileCode />} label="G-Code" desc="Analyst Mode" onClick={() => onViewChange(AppView.GCODE_ANALYST)} color="orange" />
-         <NodeCard icon={<Microscope />} label="Inspector" desc="Mesh Viewer" onClick={() => onViewChange(AppView.STL_VIEWER)} color="indigo" />
+         <NodeCard icon={<FileCode />} label="G-Code Analyst" desc="Slicer Analytics" onClick={() => onViewChange(AppView.GCODE_ANALYST)} color="orange" />
+         <NodeCard icon={<Microscope />} label="Inspector" desc="Mesh Validation" onClick={() => onViewChange(AppView.STL_VIEWER)} color="indigo" />
          <NodeCard icon={<MessageSquare />} label="Nexus AI" desc="Engineer Chat" onClick={() => onViewChange(AppView.CHAT)} color="pink" />
          
-         <NodeCard icon={<Ruler />} label="Math" desc="Spool Calc" onClick={() => onViewChange(AppView.SPOOL_MATH)} color="slate" />
-         <NodeCard icon={<QrCode />} label="Tags" desc="Label Studio" onClick={() => onViewChange(AppView.QR_STUDIO)} color="cyan" />
-         <NodeCard icon={<Mountain />} label="Terrain" desc="Map Forge" onClick={() => onViewChange(AppView.CREATOR_TERRAIN)} color="green" />
+         <NodeCard icon={<Ruler />} label="Spool Math" desc="Length Calc" onClick={() => onViewChange(AppView.SPOOL_MATH)} color="slate" />
+         <NodeCard icon={<QrCode />} label="Label Forge" desc="Asset Studio" onClick={() => onViewChange(AppView.QR_STUDIO)} color="cyan" />
+         <NodeCard icon={<Mountain />} label="Terrain" desc="Map Gen" onClick={() => onViewChange(AppView.CREATOR_TERRAIN)} color="green" />
       </section>
 
       <AdBanner slot="1234567890" className="w-full shrink-0" />
